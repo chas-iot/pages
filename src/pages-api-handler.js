@@ -8,11 +8,11 @@ let PagesAdaptor = null;
 try {
     PagesAdaptor = require('./pages-adaptor');
 } catch (e) {
-    console.log(`GroupsAdaptor unavailable: ${e}`);
+    console.log(`PagesAdaptor unavailable: ${e}`);
 }
 
 /**
- * Groups API handler.
+ * Pages API handler.
  */
 class PagesAPIHandler extends APIHandler {
     constructor(addonManager) {

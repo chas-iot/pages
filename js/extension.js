@@ -4,7 +4,7 @@
     class PagesExtension extends window.Extension {
         constructor() {
             super('pages');
-            this.addMenuEntry('Groups Extension');
+            this.addMenuEntry('Pages Extension');
 
             if (!window.Extension.prototype.hasOwnProperty('load')) {
                 this.load();

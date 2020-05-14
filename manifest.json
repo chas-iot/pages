@@ -18,7 +18,7 @@
         }
     },
     "homepage_url": "https://github.com/chas-iot/add-pages",
-    "id": "pages",
+    "id": "pages-extension",
     "license": "MPL-2.0",
     "manifest_version": 1,
     "name": "Pages extension",

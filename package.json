@@ -1,5 +1,5 @@
 {
-    "name": "pages",
+    "name": "pages-extension",
     "display_name": "Pages extension",
     "version": "0.0.1",
     "description": "Create and maintain dynamic Pages with different combinations of Things and groups of Things",
