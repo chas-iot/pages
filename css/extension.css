@@ -1,13 +1,10 @@
-/* for the gateway display the menu icon */
+/* for the gateway: display the menu icon and format the extension display area */
 
-#extension-pages-menu-item {
+#extension-pages-extension-menu-item {
     background-image: url('../images/menu-icon.svg');
 }
 
-
-/* for the gateway to display the extension main page */
-
-#extension-pages-view {
+#extension-pages-extension-view {
     position: relative;
     top: 5rem;
     left: 1rem;
@@ -19,6 +16,9 @@
     font-size: 1.6rem;
     color: #fff;
 }
+
+
+/* the CSS used inside the extension */
 
 #pagext-dynamic-data {
     box-sizing: border-box;
