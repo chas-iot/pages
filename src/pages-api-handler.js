@@ -27,7 +27,7 @@ class PagesAPIHandler extends APIHandler {
             // we dont get informed of devices being deleted, so cleanup 5 mins after startup
             setTimeout(async() => {
                 console.log('PagesAPIHandler.cleanupDevices:', JSON.stringify(this.activeDeviceList, null, 2));
-                const t = await PagesDB.database.this.database.get_all(
+                const t = await PagesDB.database.get_all(
                     'SELECT * ' +
                     'FROM principal ' +
                     'WHERE rowtype = ?' +
