@@ -129,8 +129,8 @@
                             result =
                                 `${result}
 <li>
-<a id='add-pages/${linkType}_${item.rowid}'>${item.name}</a>
-<button id="add-pages/${deleteOp}" class="pagext-button-delete">&nbsp;</button>
+<a id='pagext/item/${linkType}_${item.rowid}'>${item.name}</a>
+<button id="pagext/${deleteOp}" class="pagext-button-delete">&nbsp;</button>
 </li>`;
                         }
                     });
@@ -144,7 +144,7 @@
                     }
                     resultsLoc.innerHTML = result;
                 }).catch((e) => {
-                    console.error('add-pages/extension.js ', e.toString());
+                    console.error('pagext/extension.js ', e.toString());
                     resultsLoc.innerText = e.toString();
                 });
             };
@@ -157,7 +157,7 @@
                     ).then((body) => {
                         list_event_listener(currentType.value, currentItem.value);
                     }).catch((e) => {
-                        console.error('add-pages/extension.js ', e.toString());
+                        console.error('pagext/extension.js ', e.toString());
                         resultsLoc.innerText = e.toString();
                     });
                 }
@@ -168,8 +168,8 @@
             resultsLoc.addEventListener('click', (event) => {
                 if (event.target.nodeName == 'A' &&
                     event.target.id &&
-                    event.target.id.startsWith('add-pages/')) {
-                    let x = event.target.id.substr(17).split('_');
+                    event.target.id.startsWith('pagext/item/')) {
+                    let x = event.target.id.substr(12).split('_'); // 12 = length of pagext/item/
                     list_event_listener(x[0], x[1]);
                 }
             });
@@ -179,14 +179,14 @@
             resultsLoc.addEventListener('click', (event) => {
                 if (event.target.nodeName == 'BUTTON' &&
                     event.target.id) {
-                    if (event.target.id.startsWith('add-pages/delete/')) {
-                        let x = event.target.id.substr(24).split('_');
+                    if (event.target.id.startsWith('pagext/delete/')) {
+                        let x = event.target.id.substr(14).split('_'); // 14 = length of pagext/delete/
                         confirmAction.value = `${x[0]}/delete`;
                         confirmItem.value = x[1];
                         confirmText.innerText = `delete "${event.target.previousElementSibling.innerText}"?`;
-                    } else if (event.target.id.startsWith('add-pages/delete_link/')) {
+                    } else if (event.target.id.startsWith('pagext/delete_link/')) {
+                        confirmItem.value = event.target.id.substr(19); // 19 = length of pagext/delete_link
                         confirmAction.value = `/delete_link`;
-                        confirmItem.value = event.target.id.substr(29);
                         confirmText.innerText = `delete link to "${event.target.previousElementSibling.innerText}"?`;
                     } else {
                         return;
@@ -255,7 +255,7 @@
                                 document.getElementById('pagext-button-acknowledge').focus();
                             }
                         }).catch((e) => {
-                            console.error('add-pages/extension.js ', e.toString());
+                            console.error('pagext/extension.js ', e.toString());
                             resultsLoc.innerText = e.toString();
                         });
                     }
@@ -281,7 +281,7 @@
                     ).then((body) => {
                         list_event_listener(currentType.value, currentItem.value);
                     }).catch((e) => {
-                        console.error('add-pages/extension.js', e.toString());
+                        console.error('pagext/extension.js', e.toString());
                         resultsLoc.innerText = e.toString();
                     });
                 });
@@ -312,7 +312,7 @@
                     ).then((body) => {
                         list_event_listener(currentType.value, currentItem.value);
                     }).catch((e) => {
-                        console.error('add-pages/extension.js', e.toString());
+                        console.error('pagext/extension.js', e.toString());
                         resultsLoc.innerText = e.toString();
                     });
                 }
