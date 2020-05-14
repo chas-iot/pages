@@ -1,7 +1,7 @@
 # pages
 Create and maintain dynamic Pages with different combinations of Things and groups of Things,
 
-an extension for [https://github.com/mozilla-iot/gateway](Mozilla IoT Gateway)
+an extension for [Mozilla IoT Gateway](https://github.com/mozilla-iot/gateway)
 
 This is incomplete and does not yet deliver any useful function.
 
