@@ -61,7 +61,7 @@ const PagesDB = {
         // due to foreign keys cascading, this should delete the links to the page contents
         return this.database.run(
             'DELETE FROM principal ' +
-            'WHERE rowid = ? AND rowtype = ?;', [rowid]
+            'WHERE rowid = ?;', [rowid]
         );
 
     },
