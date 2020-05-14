@@ -25,8 +25,16 @@ class PagesAPIHandler extends APIHandler {
             this.pagesAdaptor = new PagesAdaptor(addonManager, this);
 
             // we dont get informed of devices being deleted, so cleanup 5 mins after startup
-            setTimeout(() => {
+            setTimeout(async() => {
                 console.log('PagesAPIHandler.cleanupDevices:', JSON.stringify(this.activeDeviceList, null, 2));
+                const t = await PagesDB.database.this.database.get_all(
+                    'SELECT * ' +
+                    'FROM principal ' +
+                    'WHERE rowtype = ?' +
+                    `AND NOT extid in (${new Array(this.activeDeviceList).fill('?').join(',')})`, ['t'], this.activeDeviceList
+                );
+                console.log('PagesAPIHandler.cleanupDevices (2):', JSON.stringify(t));
+
             }, (1 * 60 * 1000));
         }
 
