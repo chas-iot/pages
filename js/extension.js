@@ -3,7 +3,7 @@
 
     class PagesExtension extends window.Extension {
         constructor() {
-            super('pages');
+            super('pages-extension');
             this.addMenuEntry('Pages Extension');
 
             if (!window.Extension.prototype.hasOwnProperty('load')) {
