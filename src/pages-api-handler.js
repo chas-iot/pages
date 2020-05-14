@@ -20,12 +20,14 @@ class PagesAPIHandler extends APIHandler {
         addonManager.addAPIHandler(this);
         PagesDB.open();
 
-        // we dont get informed of devices being deleted, so cleanup 10 mins after startup
-        this.activeDeviceList = ['a'];
-        setTimeout(this.cleanupDevices, (3 * 60 * 1000));
-
         if (PagesAdaptor) {
             this.pagesAdaptor = new PagesAdaptor(addonManager, this);
+
+            // we dont get informed of devices being deleted, so cleanup 10 mins after startup
+            this.activeDeviceList = ['a'];
+            setTimeout((list) => {
+                console.log('PagesAPIHandler.cleanupDevices:', JSON.stringify(list, null, 2));
+            }, (1 * 60 * 1000), this.activeDeviceList);
         }
 
         // register all of the API handlers here
@@ -121,12 +123,6 @@ class PagesAPIHandler extends APIHandler {
     async thingNotification(id, device) {
         this.activeDeviceList.push(id);
         await PagesDB.upsert_thing(id, device.title);
-    }
-
-    // called as a timeout
-    // needs work
-    cleanupDevices() {
-        console.log('PagesAPIHandler.cleanupDevices:', JSON.stringify(this.activeDeviceList, null, 2));
     }
 
 }
