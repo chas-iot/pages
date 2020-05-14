@@ -21,8 +21,8 @@ class PagesAPIHandler extends APIHandler {
         PagesDB.open();
 
         // we dont get informed of devices being deleted, so cleanup 10 mins after startup
-        this.activeDeviceList = [];
-        setTimeout(this.cleanupDevices, (10 * 60 * 1000));
+        this.activeDeviceList = ['a'];
+        setTimeout(this.cleanupDevices, (3 * 60 * 1000));
 
         if (PagesAdaptor) {
             this.pagesAdaptor = new PagesAdaptor(addonManager, this);
