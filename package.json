@@ -1,0 +1,54 @@
+{
+    "name": "pages",
+    "display_name": "Pages extension",
+    "version": "0.0.1",
+    "description": "Create and maintain dynamic Pages with different combinations of Things and groups of Things",
+    "author": "chas-iot@runegate.org",
+    "main": "index.js",
+    "scripts": {
+        "lint": "eslint ."
+    },
+    "keywords": [
+        "mozilla",
+        "iot",
+        "extension",
+        "pages"
+    ],
+    "homepage": "https://github.com/chas-iot/pages",
+    "license": "MPL-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/chas-iot/pages.git"
+    },
+    "bugs": {
+        "url": "https://github.com/chas-iot/pages/issues"
+    },
+    "devDependencies": {
+        "babel-eslint": "^10.1.0",
+        "eslint": "^6.8.0"
+    },
+    "files": [
+        "LICENSE",
+        "README.md",
+        "SHA256SUMS",
+        "css/extension.css",
+        "images/menu-icon.svg",
+        "index.js",
+        "js/extension.js",
+        "manifest.json",
+        "views/content.html",
+        "src/db.js",
+        "src/pages-adaptor.js",
+        "src/pages-api-handler.js",
+        "src/pages-db.js"
+    ],
+    "moziot": {
+        "api": {
+            "min": 2,
+            "max": 2
+        },
+        "type": "extension",
+        "plugin": true,
+        "exec": "{nodeLoader} {path}"
+    }
+}

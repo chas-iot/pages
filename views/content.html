@@ -1,0 +1,39 @@
+<div>
+    <button id="pagext-button-groups">Show Groups</button>
+    <button id="pagext-button-pages">Show Pages</button>
+    <input type="hidden" id="pagext-current-type" />
+    <input type="hidden" id="pagext-current-item" />
+</div>
+<div id="pagext-dynamic-data"></div>
+<button id="pagext-button-add" class="icon-button"></button>
+<div id="pagext-modal-background">
+    <div id="pagext-modal-text">
+        <label for="name">input name</label>
+        <div>
+            <input type="text" name="name" id="pagext-input-name" required>
+            <br>
+            <button id="pagext-button-input-confirm">Add</button>
+            <button id="pagext-button-input-cancel">Cancel</button>
+        </div>
+    </div>
+    <div id="pagext-modal-confirm">
+        <div id="pagext-confirm-description"></div>
+        <input type="hidden" id="pagext-confirm-action" />
+        <input type="hidden" id="pagext-confirm-item" />
+        <button id="pagext-button-confirm-do">Delete</button>
+        <button id="pagext-button-confirm-cancel">Cancel</button>
+    </div>
+    <div id="pagext-modal-select">
+        <label for="select">Select</label>
+        <div>
+            <select name="select" id="pagext-input-select" required></select>
+            <br>
+            <button id="pagext-button-select-confirm">Add</button>
+            <button id="pagext-button-select-cancel">Cancel</button>
+        </div>
+    </div>
+    <div id="pagext-modal-acknowledge">
+        <div id="pagext-acknowledge-message"></div>
+        <button id="pagext-button-acknowledge">OK</button>
+    </div>
+</div>

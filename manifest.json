@@ -1,0 +1,33 @@
+{
+    "author": "chas-iot@runegate.org",
+    "content_scripts": [{
+        "css": [
+            "css/extension.css"
+        ],
+        "js": [
+            "js/extension.js"
+        ]
+    }],
+    "description": "Create and maintain dynamic Pages with different combinations of Things and groups of Things",
+    "gateway_specific_settings": {
+        "webthings": {
+            "exec": "{nodeLoader} {path}",
+            "primary_type": "extension",
+            "strict_max_version": "*",
+            "strict_min_version": "0.12.0"
+        }
+    },
+    "homepage_url": "https://github.com/chas-iot/add-pages",
+    "id": "pages",
+    "license": "MPL-2.0",
+    "manifest_version": 1,
+    "name": "Pages extension",
+    "short_name": "pages",
+    "version": "0.0.1",
+    "web_accessible_resources": [
+        "css/*.css",
+        "images/*.svg",
+        "js/*.js",
+        "views/*.html"
+    ]
+}

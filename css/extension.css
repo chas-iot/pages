@@ -1,0 +1,93 @@
+/* for the gateway display the menu icon */
+
+#extension-pages-menu-item {
+    background-image: url('../images/menu-icon.svg');
+}
+
+
+/* for the gateway to display the extension main page */
+
+#extension-pages-view {
+    position: relative;
+    top: 5rem;
+    left: 1rem;
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-height: 100%;
+    max-width: 100rem;
+    text-align: left;
+    font-size: 1.6rem;
+    color: #fff;
+}
+
+#pagext-dynamic-data {
+    box-sizing: border-box;
+    overflow: auto;
+    position: relative;
+}
+
+#pagext-dynamic-data a {
+    padding: 1rem;
+    display: inline-block;
+    min-width: 15rem;
+}
+
+#pagext-dynamic-data a:hover {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+#pagext-button-groups,
+#pagext-button-pages,
+#pagext-button-input-confirm,
+#pagext-button-input-cancel,
+#pagext-button-confirm-do,
+#pagext-button-confirm-cancel,
+#pagext-button-select-confirm,
+#pagext-button-select-cancel,
+#pagext-button-acknowledge {
+    font-size: 1.6rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+}
+
+#pagext-button-confirm-do {
+    background-color: rgb(255, 0, 0);
+}
+
+#pagext-button-add {
+    bottom: 2rem;
+    right: 2rem;
+    background: no-repeat center/100% url('/images/add.svg');
+}
+
+.pagext-button-delete {
+    background: no-repeat center/100% url('/images/delete-16.svg');
+}
+
+#pagext-modal-background {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+#pagext-modal-text,
+#pagext-modal-confirm,
+#pagext-modal-select,
+#pagext-modal-acknowledge {
+    display: none;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    background-color: #5d9bc7;
+}
