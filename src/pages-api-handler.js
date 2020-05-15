@@ -1,6 +1,6 @@
 'use strict';
 
-const { APIHandler, APIResponse } = require('gateway-addon');
+const { APIHandler, APIResponse, Database } = require('gateway-addon');
 const manifest = require('../manifest.json');
 const PagesDB = require('./pages-db.js');
 
@@ -18,7 +18,24 @@ class PagesAPIHandler extends APIHandler {
     constructor(addonManager) {
         super(addonManager, manifest.id);
         addonManager.addAPIHandler(this);
-        PagesDB.open();
+
+        const db = new Database(manifest.id);
+        let pages_db_location = '/home/pi/.mozilla-iot/pages';
+        db.open().then(() => {
+            return db.loadConfig();
+        }).then((config) => {
+            if (config.db_location) {
+                pages_db_location = config.db_location;
+            } else {
+                throw new Error('"db_location" is not in extension configuration');
+            }
+
+            PagesDB.open(pages_db_location);
+
+        }).catch((e) => {
+            console.error(`pages-api-handler  -  CANNOT CONTINUE  - ${e}`);
+            throw (e);
+        });
 
         this.activeDeviceList = [];
         if (PagesAdaptor) {
