@@ -34,7 +34,7 @@ class PagesAPIHandler extends APIHandler {
                 } catch (e) {
                     console.error('pages-api-handler (B): ', e.toString(), JSON.stringify(t, null, 2));
                 }
-            }, (1.5 * 60 * 1000));
+            }, (0.75 * 60 * 1000));
         }
 
         // register all of the API handlers here

@@ -131,11 +131,11 @@ const PagesDB = {
     cleanup_things: async function(active_things) {
         let t = null;
         try {
-            t = await PagesDB.database.run(
-                'DELETE FROM principal ' +
+            let sql = 'DELETE FROM principal ' +
                 "WHERE rowtype = 'T' " +
-                `AND NOT extid in (${new Array(active_things).fill('?').join(',')})`, active_things
-            );
+                `AND NOT extid in (${new Array(active_things).fill('?').join(',')})`;
+            console.log(sql);
+            t = await PagesDB.database.run(sql, active_things);
             console.log(JSON.stringify(t));
         } catch (e) {
             console.error(`pages-db: ${e}  -  ${JSON.stringify(t)}`);
