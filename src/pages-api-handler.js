@@ -27,12 +27,12 @@ class PagesAPIHandler extends APIHandler {
             // we dont get informed of devices being deleted, so cleanup 10 mins after startup
             // need a better solution, as the gateway can run for weeks without a restart
             setTimeout(async() => {
-                console.log(JSON.stringify(this.activeDeviceList));
+                console.log(JSON.stringify(this.activeDeviceList, null, 2));
                 try {
                     const t = await PagesDB.cleanup_things(this.activeDeviceList);
-                    console.log(JSON.stringify(t));
+                    console.log(JSON.stringify(t, null, 2));
                 } catch (e) {
-                    console.error('pages-api-handler (B): ', e.toString());
+                    console.error('pages-api-handler (B): ', e.toString(), JSON.stringify(t, null, 2));
                 }
             }, (1.5 * 60 * 1000));
         }
