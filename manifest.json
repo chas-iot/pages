@@ -29,5 +29,19 @@
         "images/*.svg",
         "js/*.js",
         "views/*.html"
-    ]
+    ],
+    "options": {
+        "default": {
+            "db-location": ".mozilla-iot/pages"
+        },
+        "schema": {
+            "type": "object",
+            "properties": {
+                "db-location": {
+                    "type": "string",
+                    "description": "the location for the database of this extension"
+                }
+            }
+        }
+    }
 }
