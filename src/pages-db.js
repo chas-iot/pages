@@ -133,7 +133,7 @@ const PagesDB = {
         try {
             let sql = 'DELETE FROM principal ' +
                 "WHERE rowtype = 'T' " +
-                `AND NOT extid in (${new Array(active_things).fill('?').join(',')})`;
+                `AND NOT extid in (${new Array(active_things.length).fill('?').join(',')})`;
             console.log(sql);
             t = await PagesDB.database.run(sql, active_things);
             console.log(JSON.stringify(t));
