@@ -20,21 +20,29 @@ class PagesAPIHandler extends APIHandler {
         addonManager.addAPIHandler(this);
 
         try {
+            console.log(1);
             const db = await new Database(manifest.id);
+            console.log(2);
             await db.open();
+            console.log(3);
             const config = await db.loadConfig();
+            console.log(4);
             console.log(JSON.stringify(config));
             let pages_db_location = '/home/pi/.mozilla-iot/pages';
             if (config.db_location) {
+                console.log(5);
                 pages_db_location = config.db_location;
+                console.log(6);
             } else {
                 throw new Error('"db_location" is not in extension configuration');
             }
+            console.log(7);
             await PagesDB.open(pages_db_location);
         } catch (e) {
             console.error(`pages-api-handler  -  CANNOT CONTINUE  - ${e.message}`);
             throw (e);
         };
+        console.log(8);
 
         this.activeDeviceList = [];
         if (PagesAdaptor) {
