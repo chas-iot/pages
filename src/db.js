@@ -35,6 +35,7 @@ const DatabaseA = {
                 throw new Error(`${db_location} does not exist`);
             }
             const filename = path.join(db_location, 'pages.sqlite3');
+            console.log('db.js: ', filename);
 
             // Check if database already exists
             let exists = fs.existsSync(filename);
