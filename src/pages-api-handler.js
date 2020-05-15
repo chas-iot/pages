@@ -30,7 +30,7 @@ class PagesAPIHandler extends APIHandler {
             } else {
                 throw new Error('"db_location" is not in extension configuration');
             }
-            PagesDB.open(pages_db_location);
+            await PagesDB.open(pages_db_location);
         } catch (e) {
             console.error(`pages-api-handler  -  CANNOT CONTINUE  - ${e.message}`);
             throw (e);
