@@ -128,6 +128,14 @@ const PagesDB = {
             'WHERE extid = ?;', [name, extid]);
     },
 
+    cleanup_things: async function(active_things) {
+        return PagesDB.database.run('DELETE FROM principal ' +
+            "WHERE rowtype = 'T' " +
+            `AND NOT extid in (${new Array(active_things.length).fill('?').join(',')})`,
+            active_things
+        );
+    },
+
     _createTables: function(db) {
         // Create the groups related tables
         db.serialize(() => {

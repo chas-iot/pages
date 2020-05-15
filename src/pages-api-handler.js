@@ -8,7 +8,7 @@ let PagesAdaptor = null;
 try {
     PagesAdaptor = require('./pages-adaptor');
 } catch (e) {
-    console.log(`PagesAdaptor unavailable: ${e}`);
+    console.error(`pages-api-handler (A) no PagesAdaptor: ${e}`);
 }
 
 /**
@@ -20,12 +20,15 @@ class PagesAPIHandler extends APIHandler {
         addonManager.addAPIHandler(this);
         PagesDB.open();
 
-        // we dont get informed of devices being deleted, so cleanup 10 mins after startup
         this.activeDeviceList = [];
-        setTimeout(this.cleanupDevices, (10 * 60 * 1000));
-
         if (PagesAdaptor) {
             this.pagesAdaptor = new PagesAdaptor(addonManager, this);
+
+            // we dont get informed of devices being deleted, so cleanup 10 mins after startup
+            // need a better solution, as the gateway can run for weeks without a restart
+            setTimeout(async() => {
+                await PagesDB.cleanup_things(this.activeDeviceList);
+            }, (10 * 60 * 1000));
         }
 
         // register all of the API handlers here
@@ -91,16 +94,20 @@ class PagesAPIHandler extends APIHandler {
         if (request.method === 'POST') {
             let handle = this.handlers[request.path];
             if (handle) {
-                result = await handle(request);
+                try {
+                    result = await handle(request);
+                } catch (e) {
+                    console.error('pages-api-handler (B): ', e.toString());
+                }
             }
         }
 
         if (result !== null) {
-            console.log(`handled request for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
+            console.log(`pages-api-handler: handled request for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
 
             // this is a good place to intercept the results
             if (request.path === 'x /page/listavailable') {
-                console.log('result: ', JSON.stringify(result));
+                console.log('pages-api-handler: result: ', JSON.stringify(result));
             }
 
             return new APIResponse({
@@ -109,7 +116,7 @@ class PagesAPIHandler extends APIHandler {
                 content: JSON.stringify(result),
             });
         }
-        console.log(`no handler for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
+        console.error(`pages-api-handler (C): no handler for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
         return new APIResponse({
             status: 404,
             contentType: 'text/plain',
@@ -121,12 +128,6 @@ class PagesAPIHandler extends APIHandler {
     async thingNotification(id, device) {
         this.activeDeviceList.push(id);
         await PagesDB.upsert_thing(id, device.title);
-    }
-
-    // called as a timeout
-    // needs work
-    cleanupDevices() {
-        console.log('PagesAPIHandler.cleanupDevices:', JSON.stringify(this.activeDeviceList, null, 2));
     }
 
 }
