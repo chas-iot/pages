@@ -129,17 +129,11 @@ const PagesDB = {
     },
 
     cleanup_things: async function(active_things) {
-        let t = null;
-        try {
-            let sql = 'DELETE FROM principal ' +
-                "WHERE rowtype = 'T' " +
-                `AND NOT extid in (${new Array(active_things.length).fill('?').join(',')})`;
-            console.log(sql);
-            t = await PagesDB.database.run(sql, active_things);
-            console.log(JSON.stringify(t));
-        } catch (e) {
-            console.error(`pages-db: ${e}  -  ${JSON.stringify(t)}`);
-        }
+        return PagesDB.database.run('DELETE FROM principal ' +
+            "WHERE rowtype = 'T' " +
+            `AND NOT extid in (${new Array(active_things.length).fill('?').join(',')})`,
+            active_things
+        );
     },
 
     _createTables: function(db) {

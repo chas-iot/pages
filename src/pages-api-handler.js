@@ -27,14 +27,8 @@ class PagesAPIHandler extends APIHandler {
             // we dont get informed of devices being deleted, so cleanup 10 mins after startup
             // need a better solution, as the gateway can run for weeks without a restart
             setTimeout(async() => {
-                console.log(JSON.stringify(this.activeDeviceList, null, 2));
-                try {
-                    const t = await PagesDB.cleanup_things(this.activeDeviceList);
-                    console.log(JSON.stringify(t, null, 2));
-                } catch (e) {
-                    console.error('pages-api-handler (B): ', e.toString(), JSON.stringify(t, null, 2));
-                }
-            }, (0.75 * 60 * 1000));
+                await PagesDB.cleanup_things(this.activeDeviceList);
+            }, (10 * 60 * 1000));
         }
 
         // register all of the API handlers here
@@ -103,7 +97,7 @@ class PagesAPIHandler extends APIHandler {
                 try {
                     result = await handle(request);
                 } catch (e) {
-                    console.error('pages-api-handler (C): ', e.toString());
+                    console.error('pages-api-handler (B): ', e.toString());
                 }
             }
         }
@@ -122,7 +116,7 @@ class PagesAPIHandler extends APIHandler {
                 content: JSON.stringify(result),
             });
         }
-        console.error(`pages-api-handler (D): no handler for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
+        console.error(`pages-api-handler (C): no handler for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
         return new APIResponse({
             status: 404,
             contentType: 'text/plain',
