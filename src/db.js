@@ -44,7 +44,6 @@ const DatabaseA = {
 
             // Open database or create it if it doesn't exist
             this.db = new sqlite3.Database(filename);
-            if (this.db === null) { console.log('bingo'); }
 
             // Set a timeout in case the database is locked. 10 seconds is a bit long,
             // but it's better than crashing.
