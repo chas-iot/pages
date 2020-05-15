@@ -128,12 +128,18 @@ const PagesDB = {
             'WHERE extid = ?;', [name, extid]);
     },
 
-    cleanup_things: function(active_things) {
-        return PagesDB.database.run(
-            'DELETE FROM principal ' +
-            "WHERE rowtype = 'T' " +
-            `AND NOT extid in (${new Array(active_things).fill('?').join(',')})`, active_things
-        );
+    cleanup_things: async function(active_things) {
+        let t = null;
+        try {
+            t = await PagesDB.database.run(
+                'DELETE FROM principal ' +
+                "WHERE rowtype = 'T' " +
+                `AND NOT extid in (${new Array(active_things).fill('?').join(',')})`, active_things
+            );
+            console.log(JSON.stringify(t));
+        } catch (e) {
+            console.error(`pages-db: ${e}  -  ${JSON.stringify(t)}`);
+        }
     },
 
     _createTables: function(db) {
