@@ -19,6 +19,9 @@ class PagesAPIHandler extends APIHandler {
         super(addonManager, manifest.id);
         addonManager.addAPIHandler(this);
 
+        this.activeDeviceList = [];
+        this.handlers = {};
+
         const db = new Database(manifest.id);
         let pages_db_location = '/home/pi/.mozilla-iot/pages';
         db.open().then(() => {
@@ -27,29 +30,24 @@ class PagesAPIHandler extends APIHandler {
             if (config.db_location) {
                 pages_db_location = config.db_location;
             } else {
-                throw new Error('"db_location" is not in extension configuration');
+                console.error('pages-api-handler (B): "db_location" is not in extension configuration');
             }
-
             PagesDB.open(pages_db_location);
-
+        }).then(() => {
+            if (PagesAdaptor) {
+                this.pagesAdaptor = new PagesAdaptor(addonManager, this);
+                // we dont get informed of devices being deleted, so cleanup 10 mins after startup
+                // need a better solution, as the gateway can run for weeks without a restart
+                setTimeout(async() => {
+                    PagesDB.cleanup_things(this.activeDeviceList);
+                }, (10 * 60 * 1000));
+            }
         }).catch((e) => {
             console.error(`pages-api-handler  -  CANNOT CONTINUE  - ${e}`);
             throw (e);
         });
 
-        this.activeDeviceList = [];
-        if (PagesAdaptor) {
-            this.pagesAdaptor = new PagesAdaptor(addonManager, this);
-
-            // we dont get informed of devices being deleted, so cleanup 10 mins after startup
-            // need a better solution, as the gateway can run for weeks without a restart
-            setTimeout(async() => {
-                await PagesDB.cleanup_things(this.activeDeviceList);
-            }, (10 * 60 * 1000));
-        }
-
         // register all of the API handlers here
-        this.handlers = {};
         let h = this.handlers;
 
         h['/group'] = (request) => {
@@ -114,7 +112,7 @@ class PagesAPIHandler extends APIHandler {
                 try {
                     result = await handle(request);
                 } catch (e) {
-                    console.error('pages-api-handler (B): ', e.toString());
+                    console.error('pages-api-handler (C): ', e.toString());
                 }
             }
         }
@@ -133,7 +131,7 @@ class PagesAPIHandler extends APIHandler {
                 content: JSON.stringify(result),
             });
         }
-        console.error(`pages-api-handler (C): no handler for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
+        console.error(`pages-api-handler (D): no handler for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
         return new APIResponse({
             status: 404,
             contentType: 'text/plain',
