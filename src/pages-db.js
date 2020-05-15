@@ -14,7 +14,7 @@ const PagesDB = {
 
     open: function(db_location) {
         this.database = DatabaseA;
-        this.database.open(db_location, this._createTables);
+        return this.database.open(db_location, this._createTables);
     },
 
     get_list: function(rowtype) {

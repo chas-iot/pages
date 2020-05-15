@@ -24,7 +24,7 @@ const DatabaseA = {
     open: function(db_location, createTables) {
         // If the database is already open, just return.
         if (this.db) {
-            return;
+            return true;
         }
 
         try {
@@ -59,7 +59,7 @@ const DatabaseA = {
             });
         } catch (e) {
             console.error(`db.js  -  CANNOT CONTINUE  -  ${e}`);
-            throw (e);
+            return e;
         }
 
         // optimize the database for query plans every few hours. This is usually a no-op unless 
@@ -69,6 +69,8 @@ const DatabaseA = {
         setInterval(function() {
             this.db.run('PRAGMA optimize;');
         }, (11.5 * hour));
+
+        return true;
     },
 
     /**
