@@ -8,7 +8,7 @@ let PagesAdaptor = null;
 try {
     PagesAdaptor = require('./pages-adaptor');
 } catch (e) {
-    console.log(`pages-api-handler: PagesAdaptor unavailable: ${e}`);
+    console.error(`pages-api-handler (A) no PagesAdaptor: ${e}`);
 }
 
 /**
@@ -27,12 +27,12 @@ class PagesAPIHandler extends APIHandler {
             // we dont get informed of devices being deleted, so cleanup 10 mins after startup
             // need a better solution, as the gateway can run for weeks without a restart
             setTimeout(async() => {
-                console.log(json.stringify(this.activeDeviceList));
+                console.log(JSON.stringify(this.activeDeviceList));
                 try {
                     const t = await PagesDB.cleanup_things(this.activeDeviceList);
                     console.log(JSON.stringify(t));
                 } catch (e) {
-                    console.error('pages-api-handler (A): ', e.toString());
+                    console.error('pages-api-handler (B): ', e.toString());
                 }
             }, (1.5 * 60 * 1000));
         }
@@ -103,7 +103,7 @@ class PagesAPIHandler extends APIHandler {
                 try {
                     result = await handle(request);
                 } catch (e) {
-                    console.error('pages-api-handler (B): ', e.toString());
+                    console.error('pages-api-handler (C): ', e.toString());
                 }
             }
         }
@@ -122,7 +122,7 @@ class PagesAPIHandler extends APIHandler {
                 content: JSON.stringify(result),
             });
         }
-        console.error(`pages-api-handler (C): no handler for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
+        console.error(`pages-api-handler (D): no handler for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
         return new APIResponse({
             status: 404,
             contentType: 'text/plain',
