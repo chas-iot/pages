@@ -24,7 +24,7 @@ const DatabaseA = {
     open: function(db_location, createTables) {
         // If the database is already open, just return.
         if (this.db) {
-            return;
+            return true;
         }
 
         try {
