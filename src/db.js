@@ -69,6 +69,8 @@ const DatabaseA = {
         setInterval(function() {
             this.db.run('PRAGMA optimize;');
         }, (11.5 * hour));
+
+        return true;
     },
 
     /**
