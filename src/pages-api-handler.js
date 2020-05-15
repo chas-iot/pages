@@ -19,12 +19,11 @@ class PagesAPIHandler extends APIHandler {
         super(addonManager, manifest.id);
         addonManager.addAPIHandler(this);
 
-        let pages_db_location = '/home/pi/.mozilla-iot/pages';
         const db = new Database(manifest.id);
+        let pages_db_location = '/home/pi/.mozilla-iot/pages';
         db.open().then(() => {
             db.loadConfig();
         }).then((config) => {
-            console.log(JSON.stringify(config));
             if (config.db_location) {
                 pages_db_location = config.db_location;
             } else {
