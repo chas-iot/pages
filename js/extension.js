@@ -196,6 +196,26 @@
                 }
             });
 
+            let dragging = null;
+            resultsLoc.addEventListener('dragstart', (event) => {
+                event.dataTransfer.setData("text/plain", event.target.id);
+                event.dataTransfer.effectAllowed = "move";
+                dragging = event.target;
+            });
+            resultsLoc.addEventListener('over', (event) => {
+                let parent = dragging.parentNode;
+                if (event.target.parentNode === parent) {
+                    if (Array.prototype.indexOf.call(parent, dragging) <
+                        Array.prototype.indexOf.call(parent, event.target)) {
+                        parent.insertBefore(dragging, event.target);
+                    } else {
+                        parent.insertBefore(dragging, event.target.nextSibling);
+
+                    }
+                }
+            });
+
+
             // clicking on the background hides the modal and terminates the modal process
             modalBackground.addEventListener('click', (event) => {
                 if (event.target === modalBackground) {
