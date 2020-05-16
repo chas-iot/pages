@@ -128,7 +128,7 @@
                             }
                             result =
                                 `${result}
-<li draggable='true'>
+<li${item.link_rowid && item.link_rowid > 0 ? ' draggable="true"' : ''}>
 <a id='pagext/item/${linkType}_${item.rowid}'>${item.name}</a>
 <button id="pagext/${deleteOp}" class="pagext-button-delete">&nbsp;</button>
 </li>`;
@@ -227,7 +227,7 @@
                     if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
                     let newList = [];
                     parent.children.forEach((item, index) => {
-                        newList.push({ rowid: item.children[1].id, link_order: index });
+                        newList.push({ rowid: item.children[3].id.split('/').pop, link_order: index });
                     });
                     console.log(JSON.stringify(newList, null, 2));
                 }
