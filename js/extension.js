@@ -227,7 +227,7 @@
                     if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
                     let newList = [];
                     parent.children.forEach((item, index) => {
-                        if (!item.children) {
+                        if (!item.children || !item.children.length) {
                             console.log('no children', item.nodeName, item.nodeName);
                         } else {
                             console.log(item.children.length, item.children[item.children.length].nodeName, item.children[item.children.length].nodeName);
