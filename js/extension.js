@@ -228,9 +228,8 @@
                     let newList = [];
                     parent.children.forEach((item, index) => {
                         let x = item.firstChild;
-                        console.log(JSON.stringify(item));
-                        console.log('---------------------');
-                        console.log(JSON.stringify(x));
+                        console.log(item.nodeName);
+                        console.log(x.nodeName);
                         console.log('======================')
                         newList.push({ rowid: x, link_order: index });
                     });
