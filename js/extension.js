@@ -227,12 +227,9 @@
                     if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
                     let newList = [];
                     parent.children.forEach((item, index) => {
-                        let x = item.firstChild.nextSibling;
-                        console.log(item.nodeName);
-                        console.log(x.nodeName);
-                        console.log('======================')
-                        newList.push({ rowid: x, link_order: index });
+                        newList.push({ rowid: item.children(1).id, link_order: index });
                     });
+                    console.log(JSON.stringify(newList, null, 2));
                 }
             });
 
