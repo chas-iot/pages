@@ -205,13 +205,14 @@
             resultsLoc.addEventListener('over', (event) => {
                 let parent = dragging.parentNode;
                 if (event.target.parentNode === parent) {
+                    console.log('before: ', Array.prototype.indexOf.call(parent, dragging), Array.prototype.indexOf.call(parent, event.target));
                     if (Array.prototype.indexOf.call(parent, dragging) <
                         Array.prototype.indexOf.call(parent, event.target)) {
                         parent.insertBefore(dragging, event.target);
                     } else {
                         parent.insertBefore(dragging, event.target.nextSibling);
-
                     }
+                    console.log('after: ', Array.prototype.indexOf.call(parent, dragging), Array.prototype.indexOf.call(parent, event.target));
                 }
             });
 
