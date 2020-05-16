@@ -230,7 +230,7 @@
                         if (!item.children || !item.children.length) {
                             console.log('no children', item.nodeName, item.nodeName);
                         } else {
-                            console.log(item.children.length, item.children[item.children.length - 1].nodeName, item.children[item.children.length - 1].nodeName);
+                            console.log(item.children.length, item.children[item.children.length - 1].nodeName, item.children[item.children.length - 1].id);
                             newList.push({ rowid: item.children[item.children.length - 1].id.split('/').pop, link_order: index });
                         }
                     });
