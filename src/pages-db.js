@@ -35,7 +35,7 @@ const PagesDB = {
             'UNION ' +
             'SELECT principal.* ' +
             ', link.rowid AS link_rowid ' +
-            ', link.link_order '
+            ', link.link_order ' +
             'FROM principal ' +
             'JOIN link ' +
             'ON link.contained = principal.rowid ' +
