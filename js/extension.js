@@ -196,6 +196,7 @@
                 }
             });
 
+            // drag and drop handling
             let dragging = null;
             resultsLoc.addEventListener('dragstart', (event) => {
                 event.dataTransfer.setData("text/plain", event.target.id);
@@ -213,7 +214,6 @@
                 }
             });
             resultsLoc.addEventListener('drop', (event) => {
-                console.log('drop');
                 let parent = dragging.parentNode;
                 let realTarget = null;
                 if (event.target.parentNode === parent) {
@@ -221,16 +221,16 @@
                 } else if (event.target.parentNode.parentNode === parent) {
                     realTarget = event.target.parentNode;
                 }
-                if (realTarget) {
-                    console.log(`drop: parent ${parent.nodeName}  --  dragging ${dragging.nodeName}/${dragging.id}  --  target: ${realTarget.nodeName}/${realTarget.id}`);
-                    console.log('before: ', Array.prototype.indexOf.call(parent, dragging), Array.prototype.indexOf.call(parent, realTarget));
-                    if (Array.prototype.indexOf.call(parent, dragging) <
-                        Array.prototype.indexOf.call(parent, realTarget)) {
-                        parent.insertBefore(dragging, realTarget);
-                    } else {
-                        parent.insertBefore(dragging, realTarget.nextSibling);
-                    }
-                    console.log(' after: ', Array.prototype.indexOf.call(parent, dragging), Array.prototype.indexOf.call(parent, realTarget));
+                if (realTarget && realTarget !== dragging) {
+                    parent.insertBefore(dragging, realTarget);
+                    // hack the DOM to make forEach usuable
+                    if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
+                    let newList = [];
+                    parent.forEach((item, index) => {
+                        let x = item.firstChild.id;
+                        console.log(x);
+                        newList.push({ rowid: x, link_order: index });
+                    });
                 }
             });
 
