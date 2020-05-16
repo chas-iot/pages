@@ -226,7 +226,7 @@
                     // hack the DOM to make forEach usuable
                     if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
                     let newList = [];
-                    parent.forEach((item, index) => {
+                    parent.children.forEach((item, index) => {
                         let x = item.firstChild.id;
                         console.log(x);
                         newList.push({ rowid: x, link_order: index });
