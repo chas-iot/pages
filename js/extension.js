@@ -198,13 +198,15 @@
 
             let dragging = null;
             resultsLoc.addEventListener('dragstart', (event) => {
-                console.log('dragstart');
+                console.log('dragstart:', event.target.nodeName, event.target.id,
+                    event.originalTarget.nodeName, event.originalTarget.id,
+                    event.explicitOriginalTarget.nodeName, event.explicitOriginalTarget.id, );
                 event.dataTransfer.setData("text/plain", event.target.id);
                 event.dataTransfer.effectAllowed = "move";
                 dragging = event.target;
             });
             resultsLoc.addEventListener('dragover', (event) => {
-                console.log('dragover');
+                console.log('dragover:', event.target.nodeName, event.target.id, event.originalTarget.nodeName, event.originalTarget.id);
                 let parent = dragging.parentNode;
                 if (event.target.parentNode === parent) {
                     console.log('before: ', Array.prototype.indexOf.call(parent, dragging), Array.prototype.indexOf.call(parent, event.target));
