@@ -207,33 +207,33 @@
             });
             resultsLoc.addEventListener('dragover', (event) => {
                 console.log('dragover:', event.target.nodeName, event.target.id, event.originalTarget.nodeName, event.originalTarget.id);
-                let parent = dragging.parentNode;
-                if (event.target.parentNode === parent) {
+                if (event.target.parentNode === dragging.parentNode || event.target.parentNode.parentNode === dragging.parentNode) {
                     event.preventDefault();
-                    /*                  
-                    console.log('before: ', Array.prototype.indexOf.call(parent, dragging), Array.prototype.indexOf.call(parent, event.target));
-                    if (Array.prototype.indexOf.call(parent, dragging) <
-                        Array.prototype.indexOf.call(parent, event.target)) {
-                        parent.insertBefore(dragging, event.target);
-                    } else {
-                        parent.insertBefore(dragging, event.target.nextSibling);
-                    }
-                    console.log('after: ', Array.prototype.indexOf.call(parent, dragging), Array.prototype.indexOf.call(parent, event.target));
-                    */
                 }
             });
             resultsLoc.addEventListener('dragenter', (event) => {
                 console.log('dragenter:', event.target.nodeName, event.target.id, event.originalTarget.nodeName, event.originalTarget.id);
-                let parent = dragging.parentNode;
-                if (event.target.parentNode === parent) {
+                if (event.target.parentNode === dragging.parentNode || event.target.parentNode.parentNode === dragging.parentNode) {
                     event.preventDefault();
                 }
             });
             resultsLoc.addEventListener('drop', (event) => {
                 console.log('drop:', event.target.nodeName, event.target.id, event.originalTarget.nodeName, event.originalTarget.id);
-                let parent = dragging.parentNode;
-                if (event.target.parentNode === parent) {
-                    event.preventDefault();
+                let realTarget = null;
+                if (event.target.parentNode === dragging.parentNode) {
+                    realTarget = event.target;
+                } else if (event.target.parentNode.parentNode === dragging.parentNode) {
+                    realTarget = event.target.parentNode;
+                }
+                if (realTarget) {
+                    console.log('before: ', Array.prototype.indexOf.call(dragging.parentNode, dragging), Array.prototype.indexOf.call(dragging.parentNode, realTarget));
+                    if (Array.prototype.indexOf.call(parent, dragging) <
+                        Array.prototype.indexOf.call(parent, realTarget)) {
+                        parent.insertBefore(dragging, realTarget);
+                    } else {
+                        parent.insertBefore(dragging, realTarget.nextSibling);
+                    }
+                    console.log(' after: ', Array.prototype.indexOf.call(dragging.parentNode, dragging), Array.prototype.indexOf.call(dragging.parentNode, realTarget));
                 }
             });
 
