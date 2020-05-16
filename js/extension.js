@@ -225,16 +225,12 @@
                     parent.insertBefore(dragging, realTarget);
                     // hack the DOM to make forEach usuable
                     if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
-                    let newList = [];
+                    let kv = {};
                     parent.children.forEach((item, index) => {
-                        if (!item.children || !item.children.length) {
-                            console.log('no children', item.nodeName, item.nodeName);
-                        } else {
-                            console.log(item.children.length, item.children[item.children.length - 1].nodeName, item.children[item.children.length - 1].id);
-                            newList.push({ rowid: item.children[item.children.length - 1].id.split('/').pop(), link_order: index });
-                        }
+                        kv['rowid/' + index] = item.children[item.children.length - 1].id.split('/').pop();
                     });
-                    console.log(JSON.stringify(newList, null, 2));
+                    window.API.postJson(
+                        `/extensions/${this_id}/api/update_link_position`, kv);
                 }
             });
 
