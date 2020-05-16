@@ -209,6 +209,8 @@
                 console.log('dragover:', event.target.nodeName, event.target.id, event.originalTarget.nodeName, event.originalTarget.id);
                 let parent = dragging.parentNode;
                 if (event.target.parentNode === parent) {
+                    event.preventDefault();
+                    /*                  
                     console.log('before: ', Array.prototype.indexOf.call(parent, dragging), Array.prototype.indexOf.call(parent, event.target));
                     if (Array.prototype.indexOf.call(parent, dragging) <
                         Array.prototype.indexOf.call(parent, event.target)) {
@@ -217,6 +219,21 @@
                         parent.insertBefore(dragging, event.target.nextSibling);
                     }
                     console.log('after: ', Array.prototype.indexOf.call(parent, dragging), Array.prototype.indexOf.call(parent, event.target));
+                    */
+                }
+            });
+            resultsLoc.addEventListener('dragenter', (event) => {
+                console.log('dragenter:', event.target.nodeName, event.target.id, event.originalTarget.nodeName, event.originalTarget.id);
+                let parent = dragging.parentNode;
+                if (event.target.parentNode === parent) {
+                    event.preventDefault();
+                }
+            });
+            resultsLoc.addEventListener('drop', (event) => {
+                console.log('drop:', event.target.nodeName, event.target.id, event.originalTarget.nodeName, event.originalTarget.id);
+                let parent = dragging.parentNode;
+                if (event.target.parentNode === parent) {
+                    event.preventDefault();
                 }
             });
 
