@@ -30,7 +30,7 @@ class PagesAPIHandler extends APIHandler {
             if (config && config.dblocation) {
                 pages_db_location = config.dblocation;
             } else {
-                console.error(`pages-api-handler (B): "dblocation" is not in extension configuration ${JSON.stringify(config)}`);
+                console.error(`pages-api-handler (B): "dblocation" is not in configuration - config: ${JSON.stringify(config)}`);
             }
             PagesDB.open(pages_db_location);
         }).then(() => {
