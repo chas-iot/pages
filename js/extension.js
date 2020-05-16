@@ -219,21 +219,22 @@
             });
             resultsLoc.addEventListener('drop', (event) => {
                 console.log('drop:', event.target.nodeName, event.target.id, event.originalTarget.nodeName, event.originalTarget.id);
+                let parent = parent.parentNode;
                 let realTarget = null;
-                if (event.target.parentNode === dragging.parentNode) {
+                if (event.target.parentNode === parent) {
                     realTarget = event.target;
-                } else if (event.target.parentNode.parentNode === dragging.parentNode) {
+                } else if (event.target.parentNode.parentNode === parent) {
                     realTarget = event.target.parentNode;
                 }
                 if (realTarget) {
-                    console.log('before: ', Array.prototype.indexOf.call(dragging.parentNode, dragging), Array.prototype.indexOf.call(dragging.parentNode, realTarget));
+                    console.log('before: ', Array.prototype.indexOf.call(parent, dragging), Array.prototype.indexOf.call(parent, realTarget));
                     if (Array.prototype.indexOf.call(parent, dragging) <
                         Array.prototype.indexOf.call(parent, realTarget)) {
                         parent.insertBefore(dragging, realTarget);
                     } else {
                         parent.insertBefore(dragging, realTarget.nextSibling);
                     }
-                    console.log(' after: ', Array.prototype.indexOf.call(dragging.parentNode, dragging), Array.prototype.indexOf.call(dragging.parentNode, realTarget));
+                    console.log(' after: ', Array.prototype.indexOf.call(parent, dragging), Array.prototype.indexOf.call(parent, realTarget));
                 }
             });
 
