@@ -227,7 +227,7 @@
                     if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
                     let newList = [];
                     parent.children.forEach((item, index) => {
-                        let x = item.firstChild;
+                        let x = item.firstChild.nextSibling;
                         console.log(item.nodeName);
                         console.log(x.nodeName);
                         console.log('======================')
