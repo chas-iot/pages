@@ -128,7 +128,7 @@
                             }
                             result =
                                 `${result}
-<li>
+<li draggable='true'>
 <a id='pagext/item/${linkType}_${item.rowid}'>${item.name}</a>
 <button id="pagext/${deleteOp}" class="pagext-button-delete">&nbsp;</button>
 </li>`;

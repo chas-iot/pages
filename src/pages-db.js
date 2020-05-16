@@ -29,15 +29,18 @@ const PagesDB = {
         return this.database.get_all(
             'SELECT principal.* ' +
             ', -1 AS link_rowid ' +
+            ', -1 AS link_order '
             'FROM principal ' +
             'WHERE rowid = ? ' +
             'UNION ' +
             'SELECT principal.* ' +
             ', link.rowid AS link_rowid ' +
+            ', link.link_order '
             'FROM principal ' +
             'JOIN link ' +
             'ON link.contained = principal.rowid ' +
-            'AND link.container = ? ;', [rowid, rowid]);
+            'AND link.container = ? ' +
+            'ORDER by link_order;', [rowid, rowid]);
     },
 
     add_principal: async function(rowtype, name) {
@@ -66,9 +69,12 @@ const PagesDB = {
 
     },
 
-    insert_link: async function(container, contained) {
+    insert_link: async function(container, contained, lilink_ordernk_order) {
+        if (link_order === null) {
+            link_order = 999999;
+        }
         const result = await this.database.run(
-            'INSERT INTO link (container, contained) ' +
+            'INSERT INTO link (container, contained, link_order) ' +
             'VALUES (?, ?);', [container, contained]
         );
         if (result === null || result.lastid === null) {
@@ -142,17 +148,18 @@ const PagesDB = {
             db.exec('PRAGMA foreign_keys = ON;') // s/b a no-op if not supported
                 .exec(
                     'CREATE TABLE IF NOT EXISTS principal (' +
-                    'rowid INTEGER PRIMARY KEY AUTOINCREMENT,' +
-                    'rowtype TEXT NOT NULL,' + // values G group; P page; T thing - possible expansion later to U user to support permissions
-                    'name TEXT NOT NULL,' +
+                    'rowid INTEGER PRIMARY KEY AUTOINCREMENT, ' +
+                    'rowtype TEXT NOT NULL, ' + // values G group; P page; T thing - possible expansion later to U user to support permissions
+                    'name TEXT NOT NULL, ' +
                     'extid TEXT' +
                     ');'
                 )
                 .exec(
                     'CREATE TABLE IF NOT EXISTS link (' +
                     'rowid INTEGER PRIMARY KEY AUTOINCREMENT,' +
-                    'container INTEGER NOT NULL REFERENCES principal(rowid) ON DELETE CASCADE,' +
-                    'contained INTEGER NOT NULL REFERENCES principal(rowid) ON DELETE CASCADE' +
+                    'container INTEGER NOT NULL REFERENCES principal(rowid) ON DELETE CASCADE, ' +
+                    'contained INTEGER NOT NULL REFERENCES principal(rowid) ON DELETE CASCADE ' +
+                    'link_order INTEGER' +
                     ');'
                 )
                 .exec(
