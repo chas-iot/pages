@@ -29,7 +29,7 @@ const PagesDB = {
         return this.database.get_all(
             'SELECT principal.* ' +
             ', -1 AS link_rowid ' +
-            ', -1 AS link_order '
+            ', -1 AS link_order ' +
             'FROM principal ' +
             'WHERE rowid = ? ' +
             'UNION ' +
