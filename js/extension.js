@@ -198,28 +198,23 @@
 
             let dragging = null;
             resultsLoc.addEventListener('dragstart', (event) => {
-                console.log('dragstart:', event.target.nodeName, event.target.id,
-                    event.originalTarget.nodeName, event.originalTarget.id,
-                    event.explicitOriginalTarget.nodeName, event.explicitOriginalTarget.id, );
                 event.dataTransfer.setData("text/plain", event.target.id);
                 event.dataTransfer.effectAllowed = "move";
                 dragging = event.target;
             });
             resultsLoc.addEventListener('dragover', (event) => {
-                console.log('dragover:', event.target.nodeName, event.target.id, event.originalTarget.nodeName, event.originalTarget.id);
                 if (event.target.parentNode === dragging.parentNode || event.target.parentNode.parentNode === dragging.parentNode) {
                     event.preventDefault();
                 }
             });
             resultsLoc.addEventListener('dragenter', (event) => {
-                console.log('dragenter:', event.target.nodeName, event.target.id, event.originalTarget.nodeName, event.originalTarget.id);
                 if (event.target.parentNode === dragging.parentNode || event.target.parentNode.parentNode === dragging.parentNode) {
                     event.preventDefault();
                 }
             });
             resultsLoc.addEventListener('drop', (event) => {
-                console.log('drop:', event.target.nodeName, event.target.id, event.originalTarget.nodeName, event.originalTarget.id);
-                let parent = parent.parentNode;
+                console.log('drop');
+                let parent = dragging.parentNode;
                 let realTarget = null;
                 if (event.target.parentNode === parent) {
                     realTarget = event.target;
@@ -227,6 +222,7 @@
                     realTarget = event.target.parentNode;
                 }
                 if (realTarget) {
+                    console.log(`drop: parent ${parent.nodeName}  --  dragging ${dragging.nodeName}/${dragging.id}  --  target: ${realTarget.nodeName}/${realTarget.id}`);
                     console.log('before: ', Array.prototype.indexOf.call(parent, dragging), Array.prototype.indexOf.call(parent, realTarget));
                     if (Array.prototype.indexOf.call(parent, dragging) <
                         Array.prototype.indexOf.call(parent, realTarget)) {
