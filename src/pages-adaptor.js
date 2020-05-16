@@ -27,7 +27,7 @@ class PagesAdaptor extends Adapter {
     }
 
     handleDeviceRemoved(device) {
-        super(device);
+        super.handleDeviceRemoved(device);
         console.log('pagesAdaptor - handleDeviceRemoved: ', device.id, '  -  ', device.title);
     }
 
