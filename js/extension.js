@@ -202,7 +202,7 @@
                 event.dataTransfer.effectAllowed = "move";
                 dragging = event.target;
             });
-            resultsLoc.addEventListener('over', (event) => {
+            resultsLoc.addEventListener('dragover', (event) => {
                 let parent = dragging.parentNode;
                 if (event.target.parentNode === parent) {
                     console.log('before: ', Array.prototype.indexOf.call(parent, dragging), Array.prototype.indexOf.call(parent, event.target));
