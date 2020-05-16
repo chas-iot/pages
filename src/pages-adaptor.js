@@ -26,6 +26,11 @@ class PagesAdaptor extends Adapter {
         this.pagesAPIHandler.thingNotification(_deviceId, _device);
     }
 
+    handleDeviceRemoved(device) {
+        super(device);
+        console.log('pagesAdaptor - handleDeviceRemoved: ', device.id, '  -  ', device.title);
+    }
+
 }
 
 module.exports = PagesAdaptor;
