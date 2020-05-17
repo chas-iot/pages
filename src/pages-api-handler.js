@@ -145,6 +145,9 @@ class PagesAPIHandler extends APIHandler {
             });
         }
         console.error(`pages-api-handler (D): no handler for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
+        let x = '';
+        this.handlers.forEach((item) => { x = x + ';  ' + item });
+        console.log(x)
         return new APIResponse({
             status: 404,
             contentType: 'text/plain',
