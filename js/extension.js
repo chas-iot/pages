@@ -128,7 +128,7 @@
                             }
                             let content = '';
                             if (linkType === 'thing') {
-                                content = item.name;
+                                content = `<span>item.name</span>`;
                             } else {
                                 content = `<a id='pagext/item/${linkType}_${item.rowid}'>${item.name}</a>`;
                             }
