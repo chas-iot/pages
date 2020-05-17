@@ -101,6 +101,19 @@ class PagesAPIHandler extends APIHandler {
         h['/delete_link'] = (request) => {
             return PagesDB.delete_link(request.body.item);
         };
+
+        h['/update_link_position'] = (request) => {
+            let x = [];
+            for (const y in request.body) {
+                if (request.body.hasOwnProperty(y)) {
+                    x.push({
+                        rowid: request.body[prop],
+                        link_order: y
+                    });
+                }
+            }
+            console.log(JSON.stringify(x));
+        }
     }
 
     async handleRequest(request) {
