@@ -14,14 +14,14 @@
         "extension",
         "pages"
     ],
-    "homepage": "https://github.com/chas-iot/pages",
+    "homepage": "https://github.com/chas-iot/pages-extension",
     "license": "MPL-2.0",
     "repository": {
         "type": "git",
-        "url": "https://github.com/chas-iot/pages.git"
+        "url": "https://github.com/chas-iot/pages-extension"
     },
     "bugs": {
-        "url": "https://github.com/chas-iot/pages/issues"
+        "url": "https://github.com/chas-iot/pages-extension/issues"
     },
     "devDependencies": {
         "babel-eslint": "^10.1.0",
