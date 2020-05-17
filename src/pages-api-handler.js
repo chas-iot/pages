@@ -98,10 +98,6 @@ class PagesAPIHandler extends APIHandler {
             return PagesDB.insert_link(request.body.container, request.body.contained);
         };
 
-        h['/delete_link'] = (request) => {
-            return PagesDB.delete_link(request.body.item);
-        };
-
         h['/update_link_order'] = (request) => {
             let x = [];
             for (const y in request.body) {
@@ -113,6 +109,10 @@ class PagesAPIHandler extends APIHandler {
                 }
             }
             return PagesDB.update_link_order(x);
+        };
+
+        h['/delete_link'] = (request) => {
+            return PagesDB.delete_link(request.body.item);
         };
 
         h['/fred/'] = () => {};
