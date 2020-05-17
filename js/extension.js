@@ -230,7 +230,7 @@
                         kv[index] = item.children[item.children.length - 1].id.split('/').pop();
                     });
                     window.API.postJson(
-                        `/extensions/${this_id}/api/update_link_position`, kv);
+                        `/extensions/${this_id}/api/update_link_order`, kv);
                 }
             });
 

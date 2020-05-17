@@ -102,7 +102,7 @@ class PagesAPIHandler extends APIHandler {
             return PagesDB.delete_link(request.body.item);
         };
 
-        h['/update_link_position'] = (request) => {
+        h['/update_link_order'] = (request) => {
             let x = [];
             for (const y in request.body) {
                 if (request.body.hasOwnProperty(y)) {
