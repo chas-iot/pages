@@ -48,7 +48,7 @@ class PagesAPIHandler extends APIHandler {
         });
 
         // register all of the API handlers here
-        let h = this.handlers;
+        const h = this.handlers;
 
         h['/group'] = (request) => {
             if (request.body.item) {
@@ -114,6 +114,8 @@ class PagesAPIHandler extends APIHandler {
             }
             return PagesDB.update_link_order(x);
         }
+
+        h['/fred/'] = () => {}
     }
 
     async handleRequest(request) {
