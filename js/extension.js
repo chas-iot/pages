@@ -110,46 +110,52 @@
                     if (!Array.isArray(body)) {
                         throw new Error(`unexpected result - expected an Array, received ${JSON.stringify(body)}`);
                     }
-                    let result = '';
+                    let html = '';
                     let first = true;
                     let heading = false;
                     body.forEach(function(item) {
                         if (item.rowid == itemNo) { // loose comparison is deliberate, do not change to ===
-                            result = `<h2>${itemType}: ${item.name}</h2>${result}`;
+                            html = `<h2>${itemType}: ${item.name}</h2>${html}`;
                             heading = true;
                         } else {
                             if (first) {
-                                result = `${result}<ul>`;
+                                html = `${html}<ul>`;
                                 first = false;
                             }
                             let deleteOp = `delete/${linkType}_${item.rowid}`;
                             if (item.link_rowid && item.link_rowid > 0) {
                                 deleteOp = `delete_link/${item.link_rowid}`;
                             }
-                            result =
-                                `${result}
+                            let content = '';
+                            if (linkType === 'thing') {
+                                content = item.name;
+                            } else {
+                                content = `<a id='pagext/item/${linkType}_${item.rowid}'>${item.name}</a>`;
+                            }
+                            html =
+                                `${html}
 <li${item.link_rowid && item.link_rowid > 0 ? ' draggable="true"' : ''}>
-<a id='pagext/item/${linkType}_${item.rowid}'>${item.name}</a>
+${content}
 <button id="pagext/${deleteOp}" class="pagext-button-delete">&nbsp;</button>
 </li>`;
                         }
                     });
                     if (!heading) {
-                        result = `<h2>${itemType === 'group' ? 'Groups' : 'Pages'}</h2>${result}`;
+                        html = `<h2>${itemType === 'group' ? 'Groups' : 'Pages'}</h2>${html}`;
                     }
                     if (!first) {
-                        result = `${result}</ul>`;
+                        html = `${html}</ul>`;
                     } else {
-                        result = `${result}<p> - no ${itemType === 'group' ? 'members' : 'contents'} available -</p>`;
+                        html = `${html}<p> - no ${itemType === 'group' ? 'members' : 'contents'} available -</p>`;
                     }
-                    resultsLoc.innerHTML = result;
+                    resultsLoc.innerHTML = html;
                 }).catch((e) => {
                     console.error('pagext/extension.js ', e.toString());
                     resultsLoc.innerText = e.toString();
                 });
             };
 
-            // used in two places to add an item or link
+            // process text input on a modal
             const procesInputName = function() {
                 if (inputName.value.length > 0) {
                     window.API.postJson(
@@ -195,58 +201,6 @@
                     document.getElementById('pagext-button-confirm-cancel').focus();
                 }
             });
-
-            // drag and drop handling
-            let dragging = null;
-            resultsLoc.addEventListener('dragstart', (event) => {
-                event.dataTransfer.setData("text/plain", event.target.id);
-                event.dataTransfer.effectAllowed = "move";
-                dragging = event.target;
-            });
-            resultsLoc.addEventListener('dragover', (event) => {
-                if (event.target.parentNode === dragging.parentNode || event.target.parentNode.parentNode === dragging.parentNode) {
-                    event.preventDefault();
-                }
-            });
-            resultsLoc.addEventListener('dragenter', (event) => {
-                if (event.target.parentNode === dragging.parentNode || event.target.parentNode.parentNode === dragging.parentNode) {
-                    event.preventDefault();
-                }
-            });
-            resultsLoc.addEventListener('drop', (event) => {
-                let parent = dragging.parentNode;
-                let realTarget = null;
-                if (event.target.parentNode === parent) {
-                    realTarget = event.target;
-                } else if (event.target.parentNode.parentNode === parent) {
-                    realTarget = event.target.parentNode;
-                }
-                if (realTarget && realTarget !== dragging) {
-                    // hack the DOM to make NodeList usuable
-                    //if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
-                    //if (!NodeList.prototype.indexOf) { NodeList.prototype.indexOf = Array.prototype.indexOf; }
-                    try {
-                        let i1 = Array.prototype.indexOf.call(parent.children, dragging);
-                        let i2 = Array.prototype.indexOf.call(parent.children, realTarget);
-                        console.log(`dragging: ${i1}  --  target: ${i2}`);
-                        if (Array.prototype.indexOf.call(parent.children, dragging) >
-                            Array.prototype.indexOf.call(parent.children, realTarget)) {
-                            parent.insertBefore(dragging, realTarget);
-                        } else {
-                            parent.insertBefore(dragging, realTarget.nextSibling);
-                        }
-                        let kv = {};
-                        parent.children.forEach((item, index) => {
-                            kv[item.children[item.children.length - 1].id.split('/').pop()] = index;
-                        });
-                        window.API.postJson(
-                            `/extensions/${this_id}/api/update_link_order`, kv);
-                    } catch (e) {
-                        console.error(e);
-                    }
-                }
-            });
-
 
             // clicking on the background hides the modal and terminates the modal process
             modalBackground.addEventListener('click', (event) => {
@@ -403,7 +357,53 @@
                     }
                 });
 
-
+            // drag and drop handling
+            let dragging = null;
+            let dragging_parent = null;
+            resultsLoc.addEventListener('dragstart', (event) => {
+                event.dataTransfer.setData("text/plain", event.target.id);
+                event.dataTransfer.effectAllowed = "move";
+                dragging = event.target;
+                dragging_parent = dragging.parentNode;
+            });
+            resultsLoc.addEventListener('dragover', (event) => {
+                if (event.target !== dragging &&
+                    (event.target.parentNode === dragging_parent ||
+                        event.target.parentNode.parentNode === dragging_parent)) {
+                    event.preventDefault();
+                }
+            });
+            resultsLoc.addEventListener('dragenter', (event) => {
+                if (event.target !== dragging &&
+                    (event.target.parentNode === dragging_parent ||
+                        event.target.parentNode.parentNode === dragging_parent)) {
+                    event.preventDefault();
+                }
+            });
+            resultsLoc.addEventListener('drop', (event) => {
+                let realTarget = null;
+                if (event.target.parentNode === dragging_parent) {
+                    realTarget = event.target;
+                } else if (event.target.parentNode.parentNode === dragging_parent) {
+                    realTarget = event.target.parentNode;
+                }
+                if (realTarget && realTarget !== dragging) {
+                    if (Array.prototype.indexOf.call(dragging_parent.children, dragging) >
+                        Array.prototype.indexOf.call(dragging_parent.children, realTarget)) {
+                        // if dragging from below the target, insert before the target
+                        dragging_parent.insertBefore(dragging, realTarget);
+                    } else {
+                        // if dragging from above the target, insert after the target
+                        dragging_parent.insertBefore(dragging, realTarget.nextSibling);
+                    }
+                    let kv = {};
+                    dragging_parent.children.forEach((item, index) => {
+                        kv[item.children[item.children.length - 1].id.split('/').pop()] = index;
+                    });
+                    window.API.postJson(
+                        `/extensions/${this_id}/api/update_link_order`, kv);
+                }
+            });
         }
     }
 
