@@ -227,7 +227,7 @@
                     if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
                     let kv = {};
                     parent.children.forEach((item, index) => {
-                        kv[index] = item.children[item.children.length - 1].id.split('/').pop();
+                        kv[item.children[item.children.length - 1].id.split('/').pop()] = index;
                     });
                     window.API.postJson(
                         `/extensions/${this_id}/api/update_link_order`, kv);

@@ -107,8 +107,8 @@ class PagesAPIHandler extends APIHandler {
             for (const y in request.body) {
                 if (request.body.hasOwnProperty(y)) {
                     x.push({
-                        rowid: request.body[prop],
-                        link_order: y
+                        rowid: y,
+                        link_order: request.body[y]
                     });
                 }
             }
