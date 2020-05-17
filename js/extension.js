@@ -225,17 +225,20 @@
                     // hack the DOM to make NodeList usuable
                     //if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
                     //if (!NodeList.prototype.indexOf) { NodeList.prototype.indexOf = Array.prototype.indexOf; }
-                    let y = NodeList.prototype;
-                    let i1 = Array.prototype.indexOf.call(parent.children, dragging);
-                    let i1 = Array.prototype.indexOf.call(parent.children, realTarget);
-                    console.log(`dragging: ${i1}  --  target: ${i2}`);
-                    parent.insertBefore(dragging, realTarget);
-                    let kv = {};
-                    parent.children.forEach((item, index) => {
-                        kv[item.children[item.children.length - 1].id.split('/').pop()] = index;
-                    });
-                    window.API.postJson(
-                        `/extensions/${this_id}/api/update_link_order`, kv);
+                    try {
+                        let i1 = Array.prototype.indexOf.call(parent.children, dragging);
+                        let i1 = Array.prototype.indexOf.call(parent.children, realTarget);
+                        console.log(`dragging: ${i1}  --  target: ${i2}`);
+                        parent.insertBefore(dragging, realTarget);
+                        let kv = {};
+                        parent.children.forEach((item, index) => {
+                            kv[item.children[item.children.length - 1].id.split('/').pop()] = index;
+                        });
+                        window.API.postJson(
+                            `/extensions/${this_id}/api/update_link_order`, kv);
+                    } catch (e) {
+                        console.error(e);
+                    }
                 }
             });
 
