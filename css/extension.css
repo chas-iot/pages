@@ -26,10 +26,12 @@
     position: relative;
 }
 
-#pagext-dynamic-data a {
+#pagext-dynamic-data a,
+#pagext-dynamic-data span {
     padding: 1rem;
     display: inline-block;
     min-width: 15rem;
+    background: no-repeat right/100% url('../images/drag-icon.svg');
 }
 
 #pagext-dynamic-data a:hover {
