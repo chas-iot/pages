@@ -145,11 +145,10 @@ AND NOT extid in (${new Array(active_things.length).fill('?').join(',')})`,
         const promises = [];
         link_list.forEach((item) => {
             promises.push(
-                PagesDB.database.run(`
-UPDATE link 
+                PagesDB.database.run(`UPDATE link 
 SET link_order = ?
-WHERE rowid = ?
-AND link_order <> ?;`, [item.link_order, item.rowid, item.link_order]));
+WHERE rowid = ?;`, [item.link_order, item.rowid]));
+            //AND link_order <> ?;`, [item.link_order, item.rowid, item.link_order]));
         });
 
         return Promise.all(promises);
