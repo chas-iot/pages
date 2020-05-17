@@ -227,7 +227,7 @@
                     //if (!NodeList.prototype.indexOf) { NodeList.prototype.indexOf = Array.prototype.indexOf; }
                     try {
                         let i1 = Array.prototype.indexOf.call(parent.children, dragging);
-                        let i1 = Array.prototype.indexOf.call(parent.children, realTarget);
+                        let i2 = Array.prototype.indexOf.call(parent.children, realTarget);
                         console.log(`dragging: ${i1}  --  target: ${i2}`);
                         parent.insertBefore(dragging, realTarget);
                         let kv = {};
