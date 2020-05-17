@@ -142,18 +142,17 @@ AND NOT extid in (${new Array(active_things.length).fill('?').join(',')})`,
     },
 
     update_link_order: function(link_list) {
+        const promises = [];
         link_list.forEach((item) => {
-            console.log(`UPDATE link 
-SET link_order = ${item.link_order}
-WHERE rowid = ${item.rowid}
-AND link_order <> ${item.link_order};`);
-            PagesDB.database.exec(`
+            promises.push(
+                PagesDB.database.run(`
 UPDATE link 
 SET link_order = ?
 WHERE rowid = ?
-AND link_order <> ?;`, [item.link_order, item.rowid, item.link_order]);
+AND link_order <> ?;`, [item.link_order, item.rowid, item.link_order]));
         });
-        return {};
+
+        return Promise.all(promises);
     },
 
     _createTables: function(db) {
