@@ -17,7 +17,7 @@
             "strict_min_version": "0.12.0"
         }
     },
-    "homepage_url": "https://github.com/chas-iot/add-pages",
+    "homepage_url": "https://github.com/chas-iot/pages-extension",
     "id": "pages-extension",
     "license": "MPL-2.0",
     "manifest_version": 1,
@@ -39,7 +39,7 @@
             "properties": {
                 "dblocation": {
                     "type": "string",
-                    "description": "the location for the database of this extension"
+                    "description": "the location of the database of this extension"
                 }
             },
             "required": [
