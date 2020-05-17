@@ -149,7 +149,7 @@ SET link_order = ?
 WHERE rowid <> ?
 AND link_order = ?;`, [item.link_order, item.rowid, item.link_order]);
         });
-        return null;
+        return {};
     },
 
     _createTables: function(db) {

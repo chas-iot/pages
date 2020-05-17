@@ -115,7 +115,6 @@ class PagesAPIHandler extends APIHandler {
             return PagesDB.delete_link(request.body.item);
         };
 
-        h['/fred/'] = () => {};
     }
 
     async handleRequest(request) {
