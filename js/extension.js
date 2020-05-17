@@ -223,8 +223,8 @@
                 }
                 if (realTarget && realTarget !== dragging) {
                     // hack the DOM to make NodeList usuable
-                    if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
-                    if (!NodeList.prototype.indexOf) { NodeList.prototype.indexOf = Array.prototype.indexOf; }
+                    //if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
+                    //if (!NodeList.prototype.indexOf) { NodeList.prototype.indexOf = Array.prototype.indexOf; }
                     let y = NodeList.prototype;
                     let i1 = parent.children.indexOf(dragging);
                     let i2 = parent.children.indexOf(realTarget);
