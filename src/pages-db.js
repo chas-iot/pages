@@ -146,8 +146,8 @@ AND NOT extid in (${new Array(active_things.length).fill('?').join(',')})`,
             PagesDB.database.run(`
 UPDATE link 
 SET link_order = ?
-WHERE rowid <> ?
-AND link_order = ?;`, [item.link_order, item.rowid, item.link_order]);
+WHERE rowid = ?
+AND link_order <> ?;`, [item.link_order, item.rowid, item.link_order]);
         });
         return {};
     },
