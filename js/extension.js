@@ -229,7 +229,12 @@
                         let i1 = Array.prototype.indexOf.call(parent.children, dragging);
                         let i2 = Array.prototype.indexOf.call(parent.children, realTarget);
                         console.log(`dragging: ${i1}  --  target: ${i2}`);
-                        parent.insertBefore(dragging, realTarget);
+                        if (Array.prototype.indexOf.call(parent.children, dragging) >
+                            Array.prototype.indexOf.call(parent.children, realTarget)) {
+                            parent.insertBefore(dragging, realTarget);
+                        } else {
+                            parent.insertBefore(dragging, realTarget.nextSibling);
+                        }
                         let kv = {};
                         parent.children.forEach((item, index) => {
                             kv[item.children[item.children.length - 1].id.split('/').pop()] = index;
