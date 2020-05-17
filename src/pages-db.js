@@ -141,6 +141,17 @@ AND NOT extid in (${new Array(active_things.length).fill('?').join(',')})`,
         );
     },
 
+    update_link_order: function(link_list) {
+        link_list.forEach((item) => {
+            PagesDB.database.run(`
+UPDATE link 
+SET link_order = ?
+WHERE rowid <> ?
+AND link_order = ?;`, [item.link_order, item.rowid, item.link_order]);
+        });
+        return null;
+    },
+
     _createTables: function(db) {
         // Create the groups related tables
         db.serialize(() => {

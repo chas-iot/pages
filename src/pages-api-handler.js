@@ -112,7 +112,7 @@ class PagesAPIHandler extends APIHandler {
                     });
                 }
             }
-            console.log(JSON.stringify(x));
+            return PagesDB.update_link_order(x);
         }
     }
 
