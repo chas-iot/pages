@@ -146,7 +146,12 @@ class PagesAPIHandler extends APIHandler {
         }
         console.error(`pages-api-handler (D): no handler for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
         let x = '';
-        this.handlers.forEach((item) => { x = x + ';  ' + item });
+        this.handlers.forEach((item) => {});
+        for (const y in this.handlers) {
+            if (this.handlers.hasOwnProperty(y)) {
+                x = x + ';  ' + y;
+            }
+        }
         console.log(x)
         return new APIResponse({
             status: 404,
