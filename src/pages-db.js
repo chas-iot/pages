@@ -143,6 +143,10 @@ AND NOT extid in (${new Array(active_things.length).fill('?').join(',')})`,
 
     update_link_order: function(link_list) {
         link_list.forEach((item) => {
+            console.log(`UPDATE link 
+SET link_order = ${item.link_order}
+WHERE rowid = ${item.rowid}
+AND link_order <> ${item.rowid};`);
             PagesDB.database.run(`
 UPDATE link 
 SET link_order = ?
