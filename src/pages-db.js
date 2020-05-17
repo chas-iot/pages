@@ -133,6 +133,7 @@ WHERE extid = ?;`, [name, extid]);
     },
 
     cleanup_things: async function(active_things) {
+        // create the correct number of ? in the query to match the number of items in the list
         return PagesDB.database.run(`
 DELETE FROM principal
 WHERE rowtype = 'T'
@@ -145,9 +146,11 @@ AND NOT extid in (${new Array(active_things.length).fill('?').join(',')})`,
         const promises = [];
         link_list.forEach((item) => {
             promises.push(
-                PagesDB.database.run(`UPDATE link 
-SET link_order = ?
-WHERE rowid = ?;`, [item.link_order, item.rowid]));
+                PagesDB.database.run(`
+UPDATE link 
+SET link_order = ? 
+WHERE rowid = ? 
+AND ifnull(link_order,-1) <> ?;`, [item.link_order, item.rowid, item.link_order]));
             //AND link_order <> ?;`, [item.link_order, item.rowid, item.link_order]));
         });
 
