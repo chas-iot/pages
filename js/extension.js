@@ -225,9 +225,9 @@
                     // hack the DOM to make forEach usuable
                     if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
                     if (!NodeList.prototype.indexOf) { NodeList.prototype.forEach = Array.prototype.indexOf; }
-                    let i1 = parent.children.indexOf(draggable);
+                    let i1 = parent.children.indexOf(dragging);
                     let i2 = parent.children.indexOf(realTarget);
-                    console.log(`draggable: ${i1}  --  target: ${i2}`);
+                    console.log(`dragging: ${i1}  --  target: ${i2}`);
                     parent.insertBefore(dragging, realTarget);
                     let kv = {};
                     parent.children.forEach((item, index) => {
