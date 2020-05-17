@@ -31,7 +31,9 @@
     padding: 1rem;
     display: inline-block;
     min-width: 15rem;
-    background: no-repeat right/100% url('../images/drag-icon.svg');
+    background-image: url('../images/drag-icon.svg');
+    background-position: right top;
+    background-repeat: no-repeat;
 }
 
 #pagext-dynamic-data a:hover {
