@@ -31,9 +31,6 @@
     padding: 1rem;
     display: inline-block;
     min-width: 15rem;
-    background-image: url('../images/drag-icon.svg');
-    background-position: right center;
-    background-repeat: no-repeat;
 }
 
 #pagext-dynamic-data a>li[draggable="true"],
