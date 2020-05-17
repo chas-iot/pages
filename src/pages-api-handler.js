@@ -56,7 +56,7 @@ class PagesAPIHandler extends APIHandler {
             } else {
                 return PagesDB.get_list('G');
             }
-        }
+        };
 
         h['/page'] = (request) => {
             if (request.body.item) {
@@ -64,43 +64,43 @@ class PagesAPIHandler extends APIHandler {
             } else {
                 return PagesDB.get_list('P');
             }
-        }
+        };
 
         h['/group/add'] = (request) => {
             return PagesDB.add_principal('G', request.body.name);
-        }
+        };
 
         h['/page/add'] = (request) => {
             return PagesDB.add_principal('P', request.body.name);
-        }
+        };
 
         h['/group/delete'] = (request) => {
             return PagesDB.delete_principal(request.body.item);
-        }
+        };
 
         h['/page/delete'] = (request) => {
             return PagesDB.delete_principal(request.body.item);
-        }
+        };
 
         h['/group/listavailable'] = (request) => {
             return PagesDB.get_available_links(request.body.item, 'T');
-        }
+        };
 
         h['/page/listavailable'] = (request) => {
             return PagesDB.get_available_links(request.body.item, 'G');
-        }
+        };
 
         h['/page/insert'] = (request) => {
             return PagesDB.insert_link(request.body.container, request.body.contained);
-        }
+        };
 
         h['/group/insert'] = (request) => {
             return PagesDB.insert_link(request.body.container, request.body.contained);
-        }
+        };
 
         h['/delete_link'] = (request) => {
             return PagesDB.delete_link(request.body.item);
-        }
+        };
 
         h['/update_link_order'] = (request) => {
             let x = [];
@@ -113,9 +113,9 @@ class PagesAPIHandler extends APIHandler {
                 }
             }
             return PagesDB.update_link_order(x);
-        }
+        };
 
-        h['/fred/'] = () => {}
+        h['/fred/'] = () => {};
     }
 
     async handleRequest(request) {
