@@ -146,8 +146,8 @@ AND NOT extid in (${new Array(active_things.length).fill('?').join(',')})`,
             console.log(`UPDATE link 
 SET link_order = ${item.link_order}
 WHERE rowid = ${item.rowid}
-AND link_order <> ${item.rowid};`);
-            PagesDB.database.run(`
+AND link_order <> ${item.link_order};`);
+            PagesDB.database.exec(`
 UPDATE link 
 SET link_order = ?
 WHERE rowid = ?
