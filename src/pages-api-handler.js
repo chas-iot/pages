@@ -98,6 +98,10 @@ class PagesAPIHandler extends APIHandler {
             return PagesDB.insert_link(request.body.container, request.body.contained);
         };
 
+        h['/delete_link'] = (request) => {
+            return PagesDB.delete_link(request.body.item);
+        };
+
         h['/update_link_order'] = (request) => {
             let x = [];
             for (const y in request.body) {
@@ -109,10 +113,6 @@ class PagesAPIHandler extends APIHandler {
                 }
             }
             return PagesDB.update_link_order(x);
-        };
-
-        h['/delete_link'] = (request) => {
-            return PagesDB.delete_link(request.body.item);
         };
 
     }
@@ -135,7 +135,7 @@ class PagesAPIHandler extends APIHandler {
             console.log(`pages-api-handler: handled request for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
 
             // this is a good place to intercept the results
-            if (request.path === 'x /page/listavailable') {
+            if (request.path === '/update_link_order') {
                 console.log('pages-api-handler: result: ', JSON.stringify(result));
             }
 
