@@ -33,14 +33,15 @@
     min-width: 15rem;
 }
 
-#pagext-dynamic-data a>li[draggable="true"],
-#pagext-dynamic-data span>li[draggable="true"] {
+#pagext-dynamic-data a[draggable="true"],
+#pagext-dynamic-data span[draggable="true"] {
     background-image: url('../images/drag-icon.svg');
     background-position: right center;
     background-repeat: no-repeat;
 }
 
-#pagext-dynamic-data a:hover {
+#pagext-dynamic-data a:hover,
+#pagext-dynamic-data span:hover {
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.12);
 }
