@@ -65,6 +65,7 @@
 
 .pagext-button-delete {
     background: no-repeat center/100% url('/images/delete-16.svg');
+    padding: 1px;
 }
 
 #pagext-modal-background {
