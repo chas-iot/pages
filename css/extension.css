@@ -33,8 +33,8 @@
     min-width: 15rem;
 }
 
-#pagext-dynamic-data a[draggable="true"],
-#pagext-dynamic-data span[draggable="true"] {
+#pagext-dynamic-data li[draggable]>a,
+#pagext-dynamic-data li[draggable]>span {
     background-image: url('../images/drag-icon.svg');
     background-position: right center;
     background-repeat: no-repeat;
