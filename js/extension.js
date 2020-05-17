@@ -224,7 +224,7 @@
                 if (realTarget && realTarget !== dragging) {
                     // hack the DOM to make forEach usuable
                     if (!NodeList.prototype.forEach) { NodeList.prototype.forEach = Array.prototype.forEach; }
-                    if (!NodeList.prototype.indexOf) { NodeList.prototype.forEach = Array.prototype.indexOf; }
+                    if (!NodeList.prototype.indexOf) { NodeList.prototype.indexOf = Array.prototype.indexOf; }
                     let i1 = parent.children.indexOf(dragging);
                     let i2 = parent.children.indexOf(realTarget);
                     console.log(`dragging: ${i1}  --  target: ${i2}`);
