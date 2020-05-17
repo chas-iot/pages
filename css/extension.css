@@ -32,7 +32,14 @@
     display: inline-block;
     min-width: 15rem;
     background-image: url('../images/drag-icon.svg');
-    background-position: right top;
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
+#pagext-dynamic-data a>li[draggable="true"],
+#pagext-dynamic-data span>li[draggable="true"] {
+    background-image: url('../images/drag-icon.svg');
+    background-position: right center;
     background-repeat: no-repeat;
 }
 
