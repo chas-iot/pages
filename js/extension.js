@@ -134,7 +134,7 @@
                             }
                             html =
                                 `${html}
-<li>
+<li${item.link_rowid && item.link_rowid > 0 ? ' draggable="true"' : ''}>
 ${content}
 <button id="pagext/${deleteOp}" class="pagext-button-delete">&nbsp;</button>
 </li>`;
@@ -356,6 +356,54 @@ ${content}
                         closeModal();
                     }
                 });
+
+            // drag and drop handling
+            let dragging = null;
+            let dragging_parent = null;
+            resultsLoc.addEventListener('dragstart', (event) => {
+                event.dataTransfer.setData("text/plain", event.target.id);
+                event.dataTransfer.effectAllowed = "move";
+                dragging = event.target;
+                dragging_parent = dragging.parentNode;
+            });
+            resultsLoc.addEventListener('dragover', (event) => {
+                if (event.target !== dragging &&
+                    (event.target.parentNode === dragging_parent ||
+                        event.target.parentNode.parentNode === dragging_parent)) {
+                    event.preventDefault();
+                }
+            });
+            resultsLoc.addEventListener('dragenter', (event) => {
+                if (event.target !== dragging &&
+                    (event.target.parentNode === dragging_parent ||
+                        event.target.parentNode.parentNode === dragging_parent)) {
+                    event.preventDefault();
+                }
+            });
+            resultsLoc.addEventListener('drop', (event) => {
+                let realTarget = null;
+                if (event.target.parentNode === dragging_parent) {
+                    realTarget = event.target;
+                } else if (event.target.parentNode.parentNode === dragging_parent) {
+                    realTarget = event.target.parentNode;
+                }
+                if (realTarget && realTarget !== dragging) {
+                    if (Array.prototype.indexOf.call(dragging_parent.children, dragging) >
+                        Array.prototype.indexOf.call(dragging_parent.children, realTarget)) {
+                        // if dragging from below the target, insert before the target
+                        dragging_parent.insertBefore(dragging, realTarget);
+                    } else {
+                        // if dragging from above the target, insert after the target
+                        dragging_parent.insertBefore(dragging, realTarget.nextSibling);
+                    }
+                    let kv = {};
+                    dragging_parent.children.forEach((item, index) => {
+                        kv[item.children[item.children.length - 1].id.split('/').pop()] = index;
+                    });
+                    window.API.postJson(
+                        `/extensions/${this_id}/api/update_link_order`, kv);
+                }
+            });
         }
     }
 
