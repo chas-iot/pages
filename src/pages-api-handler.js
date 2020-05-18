@@ -86,6 +86,20 @@ class PagesAPIHandler extends APIHandler {
         h['/delete_link'] = (request) => {
             return PagesDB.delete_link(request.body.item);
         };
+
+        h['/update_link_order'] = (request) => {
+            let x = [];
+            for (const y in request.body) {
+                if (request.body.hasOwnProperty(y)) {
+                    x.push({
+                        rowid: y,
+                        link_order: request.body[y]
+                    });
+                }
+            }
+            return PagesDB.update_link_order(x);
+        };
+
     }
 
     async handleRequest(request) {
@@ -106,7 +120,7 @@ class PagesAPIHandler extends APIHandler {
             console.log(`pages-api-handler: handled request for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
 
             // this is a good place to intercept the results
-            if (request.path === 'x /page/listavailable') {
+            if (request.path === 'x /update_link_order') {
                 console.log('pages-api-handler: result: ', JSON.stringify(result));
             }
 

@@ -33,6 +33,13 @@
     min-width: 15rem;
 }
 
+#pagext-dynamic-data li[draggable]>a,
+#pagext-dynamic-data li[draggable]>span {
+    background-image: url('../images/drag-icon.svg');
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
 #pagext-dynamic-data a:hover,
 #pagext-dynamic-data span:hover {
     background-color: rgb(0, 0, 0);

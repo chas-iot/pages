@@ -28,15 +28,18 @@ WHERE rowtype = ?;`, [rowtype]);
         return this.database.get_all(`
 SELECT principal.*
 , -1 AS link_rowid
+, -1 AS link_order
 FROM principal
 WHERE rowid = ?
 UNION
 SELECT principal.*
 , link.rowid AS link_rowid
+, link.link_order
 FROM principal
 JOIN link
 ON link.contained = principal.rowid
-AND link.container = ?;`, [rowid, rowid]);
+AND link.container = ?
+ORDER by link_order;`, [rowid, rowid]);
     },
 
     add_principal: async function(rowtype, name) {
@@ -48,7 +51,7 @@ FROM principal
 WHERE name = ?
 AND rowtype = ?`, [name, rowtype]);
         if (t.gc > 0) {
-            return {};
+            return null;
         }
         return this.database.run(`
 INSERT INTO principal (name, rowtype)
@@ -63,10 +66,13 @@ WHERE rowid = ?;`, [rowid]);
 
     },
 
-    insert_link: async function(container, contained) {
+    insert_link: async function(container, contained, link_order) {
+        if (link_order === null) {
+            link_order = 999999;
+        }
         const result = await this.database.run(`
-INSERT INTO link (container, contained)
-VALUES (?, ?, ?);`, [container, contained]);
+INSERT INTO link (container, contained, link_order)
+VALUES (?, ?, ?);`, [container, contained, link_order]);
         if (result === null || result.lastid === null) {
             return {};
         }
@@ -74,6 +80,7 @@ VALUES (?, ?, ?);`, [container, contained]);
             rowid: result.lastID,
             container: container,
             contained: contained,
+            link_order: link_order,
         };
     },
 
@@ -133,6 +140,21 @@ AND NOT extid in (${new Array(active_things.length).fill('?').join(',')})`,
         );
     },
 
+    update_link_order: function(link_list) {
+        const promises = [];
+        link_list.forEach((item) => {
+            promises.push(
+                PagesDB.database.run(`
+UPDATE link 
+SET link_order = ? 
+WHERE rowid = ? 
+AND ifnull(link_order,-1) <> ?;`, [item.link_order, item.rowid, item.link_order]));
+            //AND link_order <> ?;`, [item.link_order, item.rowid, item.link_order]));
+        });
+
+        return Promise.all(promises);
+    },
+
     _createTables: function(db) {
         // Create the groups related tables
         db.serialize(() => {
@@ -147,7 +169,8 @@ extid TEXT );`)
 CREATE TABLE IF NOT EXISTS link (
 rowid INTEGER PRIMARY KEY AUTOINCREMENT,
 container INTEGER NOT NULL REFERENCES principal(rowid) ON DELETE CASCADE,
-contained INTEGER NOT NULL REFERENCES principal(rowid) ON DELETE CASCADE );`)
+contained INTEGER NOT NULL REFERENCES principal(rowid) ON DELETE CASCADE,
+link_order INTEGER );`)
                 .exec(
                     'CREATE UNIQUE INDEX IF NOT EXISTS links1 ON link(container, contained);'
                 )
