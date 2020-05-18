@@ -110,46 +110,52 @@
                     if (!Array.isArray(body)) {
                         throw new Error(`unexpected result - expected an Array, received ${JSON.stringify(body)}`);
                     }
-                    let result = '';
+                    let html = '';
                     let first = true;
                     let heading = false;
                     body.forEach(function(item) {
                         if (item.rowid == itemNo) { // loose comparison is deliberate, do not change to ===
-                            result = `<h2>${itemType}: ${item.name}</h2>${result}`;
+                            html = `<h2>${itemType}: ${item.name}</h2>${html}`;
                             heading = true;
                         } else {
                             if (first) {
-                                result = `${result}<ul>`;
+                                html = `${html}<ul>`;
                                 first = false;
                             }
                             let deleteOp = `delete/${linkType}_${item.rowid}`;
                             if (item.link_rowid && item.link_rowid > 0) {
                                 deleteOp = `delete_link/${item.link_rowid}`;
                             }
-                            result =
-                                `${result}
+                            let content = '';
+                            if (linkType === 'thing') {
+                                content = `<span>${item.name}</span>`;
+                            } else {
+                                content = `<a id='pagext/item/${linkType}_${item.rowid}'>${item.name}</a>`;
+                            }
+                            html =
+                                `${html}
 <li>
-<a id='pagext/item/${linkType}_${item.rowid}'>${item.name}</a>
+${content}
 <button id="pagext/${deleteOp}" class="pagext-button-delete">&nbsp;</button>
 </li>`;
                         }
                     });
                     if (!heading) {
-                        result = `<h2>${itemType === 'group' ? 'Groups' : 'Pages'}</h2>${result}`;
+                        html = `<h2>${itemType === 'group' ? 'Groups' : 'Pages'}</h2>${html}`;
                     }
                     if (!first) {
-                        result = `${result}</ul>`;
+                        html = `${html}</ul>`;
                     } else {
-                        result = `${result}<p> - no ${itemType === 'group' ? 'members' : 'contents'} available -</p>`;
+                        html = `${html}<p> - no ${itemType === 'group' ? 'members' : 'contents'} available -</p>`;
                     }
-                    resultsLoc.innerHTML = result;
+                    resultsLoc.innerHTML = html;
                 }).catch((e) => {
                     console.error('pagext/extension.js ', e.toString());
                     resultsLoc.innerText = e.toString();
                 });
             };
 
-            // used in two places to add an item or link
+            // process text input on a modal
             const procesInputName = function() {
                 if (inputName.value.length > 0) {
                     window.API.postJson(
@@ -350,8 +356,6 @@
                         closeModal();
                     }
                 });
-
-
         }
     }
 
