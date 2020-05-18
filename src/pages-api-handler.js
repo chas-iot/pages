@@ -26,14 +26,14 @@ class PagesAPIHandler extends APIHandler {
 
             // we dont get informed of devices being deleted, so cleanup 10 mins after startup
             // need a better solution, as the gateway can run for weeks without a restart
-            setTimeout(async() => {
-                await PagesDB.cleanup_things(this.activeDeviceList);
+            setTimeout(() => {
+                PagesDB.cleanup_things(this.activeDeviceList);
             }, (10 * 60 * 1000));
         }
 
         // register all of the API handlers here
         this.handlers = {};
-        let h = this.handlers;
+        const h = this.handlers;
 
         h['/group'] = (request) => {
             if (request.body.item) {

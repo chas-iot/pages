@@ -26,13 +26,15 @@
     position: relative;
 }
 
-#pagext-dynamic-data a {
+#pagext-dynamic-data a,
+#pagext-dynamic-data span {
     padding: 1rem;
     display: inline-block;
     min-width: 15rem;
 }
 
-#pagext-dynamic-data a:hover {
+#pagext-dynamic-data a:hover,
+#pagext-dynamic-data span:hover {
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.12);
 }
