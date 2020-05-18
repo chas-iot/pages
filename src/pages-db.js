@@ -51,7 +51,7 @@ FROM principal
 WHERE name = ?
 AND rowtype = ?`, [name, rowtype]);
         if (t.gc > 0) {
-            return null;
+            return {};
         }
         return this.database.run(`
 INSERT INTO principal (name, rowtype)
