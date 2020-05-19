@@ -23,7 +23,7 @@ class PagesAPIHandler extends APIHandler {
         this.handlers = {};
         this.debug = {};
         let pages_db_location = '/home/pi/.mozilla-iot/pages';
-
+        console.log(manifest.id);
         const db = new Database(manifest.id);
         db.open().then(() => {
             db.loadConfig();
