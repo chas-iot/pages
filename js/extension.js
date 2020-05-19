@@ -127,7 +127,7 @@
                                 deleteOp = `delete_link/${item.link_rowid}`;
                             }
                             let content = '';
-                            if (linkType === 'thing') {
+                            if (item.rowtype === 'T') {
                                 content = `<span>${item.name}</span>`;
                             } else {
                                 content = `<a id='pagext/item/${linkType}_${item.rowid}'>${item.name}</a>`;
