@@ -111,7 +111,8 @@ ORDER BY name;`, [t1, t2, t3, rowid]);
         let t = await this.database.get(`
 SELECT *
 FROM principal
-WHERE extid = ?;`, [extid]);
+WHERE rowtype = 'T'
+AND extid = ?;`, [extid]);
 
         if (t === null || t === undefined || t.extid !== extid) {
             return this.database.run(`
@@ -127,7 +128,8 @@ VALUES ('T', ?, ?);`, [extid, name]);
         return this.database.run(`
 UPDATE principal
 SET name = ?
-WHERE extid = ?;`, [name, extid]);
+WHERE rowtype = 'T'
+AND extid = ?;`, [name, extid]);
     },
 
     cleanup_things: async function(active_things) {
@@ -138,6 +140,13 @@ WHERE rowtype = 'T'
 AND NOT extid in (${new Array(active_things.length).fill('?').join(',')})`,
             active_things
         );
+    },
+
+    delete_thing: function(extid) {
+        return this.database.run(`
+DELETE FROM principal
+WHERE rowtype = 'T'
+AND extid = ?;`, [extid]);
     },
 
     update_link_order: function(link_list) {
