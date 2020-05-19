@@ -31,16 +31,17 @@
         "LICENSE",
         "README.md",
         "SHA256SUMS",
-        "css/extension.css",
-        "images/menu-icon.svg",
         "index.js",
-        "js/extension.js",
         "manifest.json",
-        "views/content.html",
+        "css/extension.css",
+        "images/drag-icon.svg",
+        "images/menu-icon.svg",
+        "js/extension.js",
         "src/db.js",
         "src/pages-adaptor.js",
         "src/pages-api-handler.js",
-        "src/pages-db.js"
+        "src/pages-db.js",
+        "views/content.html"
     ],
     "moziot": {
         "api": {

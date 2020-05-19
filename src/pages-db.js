@@ -18,12 +18,10 @@ const PagesDB = {
     },
 
     get_list: function(rowtype) {
-        return this.database.get_all(
-            `
+        return this.database.get_all(`
 SELECT *
 FROM principal
-WHERE rowtype = ?;`, [rowtype]
-        );
+WHERE rowtype = ?;`, [rowtype]);
     },
 
     get_contents: function(rowid) {
@@ -53,7 +51,7 @@ FROM principal
 WHERE name = ?
 AND rowtype = ?`, [name, rowtype]);
         if (t.gc > 0) {
-            return null;
+            return {};
         }
         return this.database.run(`
 INSERT INTO principal (name, rowtype)
@@ -76,7 +74,7 @@ WHERE rowid = ?;`, [rowid]);
 INSERT INTO link (container, contained, link_order)
 VALUES (?, ?, ?);`, [container, contained, link_order]);
         if (result === null || result.lastid === null) {
-            return null;
+            return {};
         }
         return {
             rowid: result.lastID,
@@ -105,7 +103,7 @@ AND NOT rowid IN (
 ORDER BY name;`, [t1, t2, t3, rowid]);
         } catch (e) {
             console.log(e);
-            return null;
+            return {};
         }
     },
 
@@ -124,7 +122,7 @@ VALUES ('T', ?, ?);`, [extid, name]);
 
         if (t.name === name) {
             // no action required
-            return null;
+            return {};
         }
 
         return this.database.run(`
@@ -182,12 +180,10 @@ rowid INTEGER PRIMARY KEY AUTOINCREMENT,
 container INTEGER NOT NULL REFERENCES principal(rowid) ON DELETE CASCADE,
 contained INTEGER NOT NULL REFERENCES principal(rowid) ON DELETE CASCADE,
 link_order INTEGER );`)
-                .exec(
-                    'CREATE UNIQUE INDEX IF NOT EXISTS links1 ON link(container, contained);'
-                )
-                .exec(
-                    'CREATE INDEX IF NOT EXISTS links2 ON link(contained);'
-                );
+                .exec(`
+CREATE UNIQUE INDEX IF NOT EXISTS links1 ON link(container, contained);`)
+                .exec(`
+CREATE INDEX IF NOT EXISTS links2 ON link(contained);`);
         });
     },
 

@@ -135,7 +135,7 @@ class PagesAPIHandler extends APIHandler {
             console.log(`pages-api-handler: handled request for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
 
             // this is a good place to intercept the results
-            if (request.path === '/update_link_order') {
+            if (request.path === 'x /update_link_order') {
                 console.log('pages-api-handler: result: ', JSON.stringify(result));
             }
 
