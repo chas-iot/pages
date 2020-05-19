@@ -40,6 +40,10 @@
                 "dblocation": {
                     "type": "string",
                     "description": "the location of the database of this extension"
+                },
+                "debug": {
+                    "type": "string",
+                    "description": "a list of comma separated debug options. Currently avaliable: request,response,<api path>"
                 }
             },
             "required": [

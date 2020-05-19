@@ -21,6 +21,7 @@ class PagesAPIHandler extends APIHandler {
 
         this.activeDeviceList = [];
         this.handlers = {};
+        this.debug = {};
         let pages_db_location = '/home/pi/.mozilla-iot/pages';
 
         const db = new Database(manifest.id);
@@ -31,6 +32,13 @@ class PagesAPIHandler extends APIHandler {
                 pages_db_location = config.dblocation;
             } else {
                 console.error(`pages-api-handler (B): "dblocation" is not in configuration - config: ${JSON.stringify(config)}`);
+            }
+            if (config && config.debug) {
+                const t = config.debug.split(',');
+                t.forEach(item => {
+                    this.debug[item.trim().toLowerCase()] = true;
+                });
+                console.log(`pages-api-handler (E): "debug" is : ${JSON.stringify(this.debug)}`);
             }
             PagesDB.open(pages_db_location);
         }).then(() => {
@@ -138,10 +146,11 @@ class PagesAPIHandler extends APIHandler {
         }
 
         if (result !== null) {
-            console.log(`pages-api-handler: handled request for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
+            if (this.debug.request || this.debug[request.path]) {
+                console.log(`pages-api-handler: handled request for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
+            }
 
-            // this is a good place to intercept the results
-            if (request.path === 'x /update_link_order') {
+            if (this.debug.response || this.debug[request.path]) {
                 console.log('pages-api-handler: result: ', JSON.stringify(result));
             }
 
