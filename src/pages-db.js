@@ -180,12 +180,10 @@ rowid INTEGER PRIMARY KEY AUTOINCREMENT,
 container INTEGER NOT NULL REFERENCES principal(rowid) ON DELETE CASCADE,
 contained INTEGER NOT NULL REFERENCES principal(rowid) ON DELETE CASCADE,
 link_order INTEGER );`)
-                .exec(
-                    'CREATE UNIQUE INDEX IF NOT EXISTS links1 ON link(container, contained);'
-                )
-                .exec(
-                    'CREATE INDEX IF NOT EXISTS links2 ON link(contained);'
-                );
+                .exec(`
+CREATE UNIQUE INDEX IF NOT EXISTS links1 ON link(container, contained);`)
+                .exec(`
+CREATE INDEX IF NOT EXISTS links2 ON link(contained);`);
         });
     },
 
