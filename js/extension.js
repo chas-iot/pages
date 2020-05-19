@@ -24,6 +24,14 @@
         show() {
             this.view.innerHTML = this.content;
             const this_id = this.id;
+            const rowtype_mapping = {
+                G: 'group',
+                group: 'G',
+                P: 'page',
+                page: 'P',
+                T: 'thing',
+                thing: 'T',
+            };
 
             // grab references to elements that will be used several times
             const resultsLoc = document
@@ -249,7 +257,7 @@ ${content}
                             }
                             let optionHTML = '';
                             body.forEach(function(item) {
-                                optionHTML = `${optionHTML}<option value="${item.rowid}">${item.name}</option>`;
+                                optionHTML = `${optionHTML}<option value="${item.rowid}">${item_mapping[item.rowid]}: ${item.name}</option>`;
                             });
                             selectionBox.innerHTML = optionHTML;
                             if (optionHTML.length > 0) {
