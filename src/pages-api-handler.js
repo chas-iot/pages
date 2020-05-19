@@ -154,9 +154,14 @@ class PagesAPIHandler extends APIHandler {
     }
 
     // called from the adapter connected into the gateway data
-    async thingNotification(id, device) {
+    async thingAddNotification(id, device) {
         this.activeDeviceList.push(id);
         await PagesDB.upsert_thing(id, device.title);
+    }
+
+    async thingRemoveNotification(id) {
+        // when this is fully active, we can remove this.activeDeviceList
+        await PagesDB.delete_thing(id);
     }
 
 }
