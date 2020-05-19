@@ -87,7 +87,7 @@ class PagesAPIHandler extends APIHandler {
         };
 
         h['/page/listavailable'] = (request) => {
-            return PagesDB.get_available_links(request.body.item, 'G');
+            return PagesDB.get_available_links(request.body.item, 'G', 'T');
         };
 
         h['/page/insert'] = (request) => {
