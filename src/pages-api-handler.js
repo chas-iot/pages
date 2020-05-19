@@ -68,19 +68,25 @@ class PagesAPIHandler extends APIHandler {
         };
 
         h['/group/listavailable'] = (request) => {
-            return PagesDB.get_available_links(request.body.item, 'T');
+            return PagesDB.get_available_links(request.body.item,
+                'T');
         };
 
         h['/page/listavailable'] = (request) => {
-            return PagesDB.get_available_links(request.body.item, 'G', 'T');
+            return PagesDB.get_available_links(request.body.item,
+                'G', 'T');
         };
 
         h['/page/insert'] = (request) => {
-            return PagesDB.insert_link(request.body.container, request.body.contained);
+            return PagesDB.insert_link(request.body.container,
+                request.body.contained,
+                request.body.link_order);
         };
 
         h['/group/insert'] = (request) => {
-            return PagesDB.insert_link(request.body.container, request.body.contained);
+            return PagesDB.insert_link(request.body.container,
+                request.body.contained,
+                request.body.link_order);
         };
 
         h['/delete_link'] = (request) => {

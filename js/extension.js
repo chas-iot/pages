@@ -321,7 +321,8 @@ ${content}
                     window.API.postJson(
                         `/extensions/${this_id}/api/${currentType.value}/insert`, {
                             container: currentItem.value,
-                            contained: selectionBox.value
+                            contained: selectionBox.value,
+                            link_order: 999999,
                         }
                     ).then((body) => {
                         list_event_listener(currentType.value, currentItem.value);
