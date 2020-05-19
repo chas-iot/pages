@@ -257,7 +257,7 @@ ${content}
                             }
                             let optionHTML = '';
                             body.forEach(function(item) {
-                                optionHTML = `${optionHTML}<option value="${item.rowid}">${rowtype_mapping[item.rowid]}: ${item.name}</option>`;
+                                optionHTML = `${optionHTML}<option value="${item.rowid}">${rowtype_mapping[item.rowtype]}: ${item.name}</option>`;
                             });
                             selectionBox.innerHTML = optionHTML;
                             if (optionHTML.length > 0) {
