@@ -67,9 +67,6 @@ WHERE rowid = ?;`, [rowid]);
     },
 
     insert_link: async function(container, contained, link_order) {
-        if (link_order === null) {
-            link_order = 999999;
-        }
         const result = await this.database.run(`
 INSERT INTO link (container, contained, link_order)
 VALUES (?, ?, ?);`, [container, contained, link_order]);
