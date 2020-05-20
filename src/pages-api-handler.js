@@ -1,6 +1,6 @@
 'use strict';
 
-const { APIHandler, APIResponse } = require('gateway-addon');
+const { APIHandler, APIResponse, Database } = require('gateway-addon');
 const manifest = require('../manifest.json');
 const PagesDB = require('./pages-db.js');
 
@@ -18,21 +18,47 @@ class PagesAPIHandler extends APIHandler {
     constructor(addonManager) {
         super(addonManager, manifest.id);
         addonManager.addAPIHandler(this);
-        PagesDB.open();
 
         this.activeDeviceList = [];
-        if (PagesAdaptor) {
-            this.pagesAdaptor = new PagesAdaptor(addonManager, this);
-
-            // we dont get informed of devices being deleted, so cleanup 10 mins after startup
-            // need a better solution, as the gateway can run for weeks without a restart
-            setTimeout(() => {
-                PagesDB.cleanup_things(this.activeDeviceList);
-            }, (10 * 60 * 1000));
-        }
+        this.handlers = {};
+        this.debug = {};
+        let pages_db_location = '/home/pi/.mozilla-iot/pages';
+        console.log(manifest.id);
+        const db = new Database(manifest.id);
+        db.open()
+            .then(() => {
+                db.loadConfig();
+            })
+            .then((config) => {
+                if (config && config.dblocation) {
+                    pages_db_location = config.dblocation;
+                } else {
+                    console.error(`pages-api-handler (D): "dblocation" is not in configuration - config: ${JSON.stringify(config)}`);
+                }
+                if (config && config.debug) {
+                    const t = config.debug.split(',');
+                    t.forEach(item => {
+                        this.debug[item.trim().toLowerCase()] = true;
+                    });
+                    console.log(`pages-api-handler (E): "debug" is : ${JSON.stringify(this.debug)}`);
+                }
+                PagesDB.open(pages_db_location);
+            })
+            .then(() => {
+                if (PagesAdaptor) {
+                    this.pagesAdaptor = new PagesAdaptor(addonManager, this);
+                    // we dont get informed of devices being deleted, so cleanup 10 mins after startup
+                    // need a better solution, as the gateway can run for weeks without a restart
+                    setTimeout(async() => {
+                        PagesDB.cleanup_things(this.activeDeviceList);
+                    }, (10 * 60 * 1000));
+                }
+            }).catch((e) => {
+                console.error(`pages-api-handler  -  CANNOT CONTINUE  - ${e}`);
+                throw (e);
+            });
 
         // register all of the API handlers here
-        this.handlers = {};
         const h = this.handlers;
 
         h['/group'] = (request) => {
@@ -123,10 +149,11 @@ class PagesAPIHandler extends APIHandler {
         }
 
         if (result !== null) {
-            console.log(`pages-api-handler: handled request for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
+            if (this.debug.request || this.debug[request.path]) {
+                console.log(`pages-api-handler: handled request for ${request.method} | ${request.path} | ${JSON.stringify(request.body)}`);
+            }
 
-            // this is a good place to intercept the results
-            if (request.path === 'x /update_link_order') {
+            if (this.debug.response || this.debug[request.path]) {
                 console.log('pages-api-handler: result: ', JSON.stringify(result));
             }
 

@@ -12,9 +12,9 @@ const PagesDB = {
 
     database: null,
 
-    open: function() {
+    open: function(db_location) {
         this.database = DatabaseA;
-        this.database.open(this._createTables);
+        this.database.open(db_location, this._createTables);
     },
 
     get_list: function(rowtype) {

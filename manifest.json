@@ -29,5 +29,26 @@
         "images/*.svg",
         "js/*.js",
         "views/*.html"
-    ]
+    ],
+    "options": {
+        "default": {
+            "dblocation": "/home/pi/.mozilla-iot/pages/"
+        },
+        "schema": {
+            "type": "object",
+            "properties": {
+                "dblocation": {
+                    "type": "string",
+                    "description": "the location of the database of this extension"
+                },
+                "debug": {
+                    "type": "string",
+                    "description": "a list of comma separated debug options. Currently avaliable: request,response,<api path>"
+                }
+            },
+            "required": [
+                "dblocation"
+            ]
+        }
+    }
 }
