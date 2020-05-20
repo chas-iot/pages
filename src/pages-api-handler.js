@@ -22,8 +22,9 @@ class PagesAPIHandler extends APIHandler {
         this.activeDeviceList = [];
         this.handlers = {};
         this.debug = {};
+
         let pages_db_location = '/home/pi/.mozilla-iot/pages';
-        console.log(manifest.id);
+
         const db = new Database(manifest.id);
         db.open()
             .then(() => {
@@ -32,22 +33,21 @@ class PagesAPIHandler extends APIHandler {
             .then((config) => {
                 if (config && config.dblocation) {
                     pages_db_location = config.dblocation;
-                } else {
-                    console.error(`pages-api-handler (D): "dblocation" is not in configuration - config: ${JSON.stringify(config)}`);
                 }
                 if (config && config.debug) {
                     const t = config.debug.split(',');
                     t.forEach(item => {
-                        this.debug[item.trim().toLowerCase()] = true;
+                        if (item.trim().toLowerCase() && item.trim().toLowerCase() !== '') {
+                            this.debug[item.trim().toLowerCase()] = true;
+                        }
                     });
-                    console.log(`pages-api-handler (E): "debug" is : ${JSON.stringify(this.debug)}`);
                 }
-                PagesDB.open(pages_db_location);
+                return PagesDB.open(pages_db_location);
             })
             .then(() => {
                 if (PagesAdaptor) {
                     this.pagesAdaptor = new PagesAdaptor(addonManager, this);
-                    // we dont get informed of devices being deleted, so cleanup 10 mins after startup
+                    // we don't get informed of devices being deleted, so cleanup 10 mins after startup
                     // need a better solution, as the gateway can run for weeks without a restart
                     setTimeout(async() => {
                         PagesDB.cleanup_things(this.activeDeviceList);
@@ -178,7 +178,7 @@ class PagesAPIHandler extends APIHandler {
     }
 
     async thingRemoveNotification(id) {
-        // when this is fully active, we can remove this.activeDeviceList
+        // if/when remove notification is fully active, we can remove this.activeDeviceList
         await PagesDB.delete_thing(id);
     }
 

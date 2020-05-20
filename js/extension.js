@@ -177,7 +177,7 @@ ${content}
                 }
             };
 
-            // filter events on the results area for clicks on any <a> anchors. 
+            // filter events on the results area for clicks on any <a> anchors.
             // On click, go to the linked item
             resultsLoc.addEventListener('click', (event) => {
                 if (event.target.nodeName == 'A' &&
@@ -188,7 +188,7 @@ ${content}
                 }
             });
 
-            // filter events on the results area for clicks on the bin buttons 
+            // filter events on the results area for clicks on the bin buttons
             // On click, request confirmation of the delete, the actual deletion done after comfirm
             resultsLoc.addEventListener('click', (event) => {
                 if (event.target.nodeName == 'BUTTON' &&

@@ -15,6 +15,7 @@ const PagesDB = {
     open: function(db_location) {
         this.database = DatabaseA;
         this.database.open(db_location, this._createTables);
+        return true;
     },
 
     get_list: function(rowtype) {
@@ -43,7 +44,7 @@ ORDER by link_order;`, [rowid, rowid]);
     },
 
     add_principal: async function(rowtype, name) {
-        // there may genuinely be things with duplicate names, 
+        // there may genuinely be things with duplicate names,
         // so prevent duplicate groups here rather than with a unique index
         const t = await this.database.get(`
 SELECT count(*) AS gc
@@ -151,9 +152,9 @@ AND extid = ?;`, [extid]);
         link_list.forEach((item) => {
             promises.push(
                 PagesDB.database.run(`
-UPDATE link 
-SET link_order = ? 
-WHERE rowid = ? 
+UPDATE link
+SET link_order = ?
+WHERE rowid = ?
 AND ifnull(link_order,-1) <> ?;`, [item.link_order, item.rowid, item.link_order]));
             //AND link_order <> ?;`, [item.link_order, item.rowid, item.link_order]));
         });
