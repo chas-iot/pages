@@ -35,7 +35,6 @@ const DatabaseA = {
                 throw new Error(`${db_location} does not exist`);
             }
             const filename = path.join(db_location, 'pages.sqlite3');
-            console.log('db.js: ', filename);
 
             // Check if database already exists
             let exists = fs.existsSync(filename);
@@ -62,8 +61,8 @@ const DatabaseA = {
             throw (e);
         }
 
-        // optimize the database for query plans every few hours. This is usually a no-op unless 
-        // - there has been a huge number of database updates that affect indexes; or 
+        // optimize the database for query plans every few hours. This is usually a no-op unless
+        // - there has been a huge number of database updates that affect indexes; or
         // - an index has never been analysed and has new entries
         const hour = (60 * 60 * 1000);
         setInterval(function() {

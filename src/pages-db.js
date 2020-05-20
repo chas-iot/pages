@@ -89,8 +89,7 @@ WHERE rowid = ?;`, [rowid]);
     },
 
     get_available_links: async function(rowid, t1, t2, t3) {
-        try {
-            return await this.database.get_all(`
+        return await this.database.get_all(`
 SELECT *
 FROM principal
 WHERE rowtype in (?, ?, ?)
@@ -99,10 +98,6 @@ AND NOT rowid IN (
     FROM link
     WHERE container = ?)
 ORDER BY name;`, [t1, t2, t3, rowid]);
-        } catch (e) {
-            console.log(e);
-            return {};
-        }
     },
 
     upsert_thing: async function(extid, name) {
