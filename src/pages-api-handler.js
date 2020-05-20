@@ -27,7 +27,7 @@ class PagesAPIHandler extends APIHandler {
         const db = new Database(manifest.id);
         db.open()
             .then(() => {
-                db.loadConfig();
+                return db.loadConfig();
             })
             .then((config) => {
                 if (config && config.dblocation) {
