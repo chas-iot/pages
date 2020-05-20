@@ -77,7 +77,7 @@ VALUES (?, ?, ?);`, [container, contained, link_order]);
             rowid: result.lastID,
             container: container,
             contained: contained,
-            link_order: link_order
+            link_order: link_order,
         };
     },
 
