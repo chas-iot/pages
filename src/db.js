@@ -65,8 +65,9 @@ const DatabaseA = {
         // - there has been a huge number of database updates that affect indexes; or
         // - an index has never been analysed and has new entries
         const hour = (60 * 60 * 1000);
-        setInterval(() => {
-            this.db.run('PRAGMA optimize;');
+        setInterval(async() => {
+            let t = await this.db.run('PRAGMA optimize;');
+            console.log('PRAGMA optimize; ', JSON.stringify(t));
         }, (0.05 * hour));
     },
 
