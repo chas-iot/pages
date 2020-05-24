@@ -22,6 +22,7 @@ const DatabaseA = {
      * @param {function} createTables if provided, a function to conditionally create the tables required for this database
      */
     open: function(db_location, createTables) {
+        console.log('boo');
         // If the database is already open, just return.
         if (this.db) {
             return;
@@ -68,7 +69,7 @@ const DatabaseA = {
         setInterval(async() => {
             let t = await this.db.run('PRAGMA optimize;');
             console.log('PRAGMA optimize; ', JSON.stringify(t));
-        }, (0.05 * hour));
+        }, ((1 / 60) * hour));
     },
 
     /**
