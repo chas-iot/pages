@@ -78,6 +78,12 @@
     min-width: 2.2rem;
 }
 
+.pagext-button-edit {
+    background: no-repeat center/100% url('/images/edit.svg');
+    padding: 0.3rem;
+    min-width: 2.2rem;
+}
+
 #pagext-modal-background {
     display: none;
     position: fixed;
