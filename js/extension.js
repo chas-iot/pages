@@ -144,7 +144,7 @@
                                 `${html}
 <li${item.link_rowid && item.link_rowid > 0 ? ' draggable="true"' : ''}>
 ${content}
-<button id="pagext/${deleteOp}" class="pagext-button-edit">&nbsp;</button>
+<button id="pagext/edit/${linkType}_${item.rowid}" class="pagext-button-edit">&nbsp;</button>
 <button id="pagext/${deleteOp}" class="pagext-button-delete">&nbsp;</button>
 </li>`;
                         }
