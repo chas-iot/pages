@@ -203,15 +203,17 @@ ${content}
                         confirmAction.value = `${x[0]}/delete`;
                         confirmItem.value = x[1];
                         confirmText.innerText = `delete "${event.target.previousElementSibling.innerText}"?`;
+                        openModal('confirm');
+                        document.getElementById('pagext-button-confirm-cancel').focus();
                     } else if (event.target.id.startsWith('pagext/delete_link/')) {
                         confirmItem.value = event.target.id.substr(19); // 19 = length of pagext/delete_link
                         confirmAction.value = `/delete_link`;
                         confirmText.innerText = `delete link to "${event.target.previousElementSibling.innerText}"?`;
+                        openModal('confirm');
+                        document.getElementById('pagext-button-confirm-cancel').focus();
                     } else {
                         return;
                     }
-                    openModal('confirm');
-                    document.getElementById('pagext-button-confirm-cancel').focus();
                 }
             });
 
