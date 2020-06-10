@@ -185,7 +185,8 @@ ${content}
                     event.target.id &&
                     event.target.id.startsWith('pagext/item/')) {
                     let x = event.target.id.substr(12).split('_'); // 12 = length of pagext/item/
-                    list_event_listener(x[0], x[1]);
+                    //list_event_listener(x[0], x[1]);
+                    // should open the page for display
                 }
             });
 
@@ -194,7 +195,10 @@ ${content}
             resultsLoc.addEventListener('click', (event) => {
                 if (event.target.nodeName == 'BUTTON' &&
                     event.target.id) {
-                    if (event.target.id.startsWith('pagext/delete/')) {
+                    if (event.target.id.startsWith('pagext/edit/')) {
+                        let x = event.target.id.substr(12).split('_'); // 12 = length of pagext/edit/
+                        list_event_listener(x[0], x[1]);
+                    } else if (event.target.id.startsWith('pagext/delete/')) {
                         let x = event.target.id.substr(14).split('_'); // 14 = length of pagext/delete/
                         confirmAction.value = `${x[0]}/delete`;
                         confirmItem.value = x[1];
