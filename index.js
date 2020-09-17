@@ -11,5 +11,5 @@
 const PagesAPIHandler = require('./src/pages-api-handler');
 
 module.exports = (addonManager) => {
-    new PagesAPIHandler(addonManager);
+  new PagesAPIHandler(addonManager);
 };

@@ -9,28 +9,28 @@
 'use strict';
 
 const {
-    Adapter
+  Adapter,
 } = require('gateway-addon');
 
 const manifest = require('../manifest.json');
 
 class PagesAdaptor extends Adapter {
-    constructor(addonManager, pagesAPIHandler) {
-        super(addonManager, 'PagesAdaptor', manifest.id);
-        addonManager.addAdapter(this);
-        this.pagesAPIHandler = pagesAPIHandler;
-    }
+  constructor(addonManager, pagesAPIHandler) {
+    super(addonManager, 'PagesAdaptor', manifest.id);
+    addonManager.addAdapter(this);
+    this.pagesAPIHandler = pagesAPIHandler;
+  }
 
-    // a call back from the superclass, used to inform the APIHandler of the devices seen
-    handleDeviceSaved(_deviceId, _device) {
-        this.pagesAPIHandler.thingAddNotification(_deviceId, _device);
-    }
+  // a call back from the superclass, used to inform the APIHandler of the devices seen
+  handleDeviceSaved(_deviceId, _device) {
+    this.pagesAPIHandler.thingAddNotification(_deviceId, _device);
+  }
 
-    handleDeviceRemoved(device) {
-        super.handleDeviceRemoved(device);
-        console.log('pagesAdaptor - handleDeviceRemoved: ', device.id, '  -  ', device.title);
-        this.pagesAPIHandler.thingRemoveNotification(device.id);
-    }
+  handleDeviceRemoved(device) {
+    super.handleDeviceRemoved(device);
+    console.log('pagesAdaptor - handleDeviceRemoved: ', device.id, '  -  ', device.title);
+    this.pagesAPIHandler.thingRemoveNotification(device.id);
+  }
 
 }
 
