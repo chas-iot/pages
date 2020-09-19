@@ -35,7 +35,7 @@
         "manifest.json",
         "css/extension.css",
         "images/drag-icon.svg",
-        "images/menu-icon.svg",
+        "images/pages-icon.svg",
         "js/extension.js",
         "src/db.js",
         "src/pages-adaptor.js",

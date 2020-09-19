@@ -1,7 +1,7 @@
 /* for the gateway: display the menu icon and format the extension display area */
 
 #extension-pages-extension-menu-item {
-    background-image: url('../images/menu-icon.svg');
+    background-image: url('../images/pages-icon.svg');
 }
 
 #extension-pages-extension-view {
