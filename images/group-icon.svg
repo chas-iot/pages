@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <defs>
+    <clipPath clipPathUnits="userSpaceOnUse" id="prefix__a">
+      <path stroke-width="50" stroke="#000" fill-opacity="0" fill="#fff" class="prefix__prefix__powerclip" d="M170 170h660v660H170zm582.941 387.647a300 300 0 00-300-300 300 300 0 00-300 300 300 300 0 00300 300 300 300 0 00300-300"/>
+    </clipPath>
+    <clipPath clipPathUnits="userSpaceOnUse" id="prefix__d">
+      <path stroke-width="50" stroke="#000" fill-opacity="0" fill="#fff" class="prefix__prefix__powerclip" d="M170 170h660v660H170zm582.941 387.647a300 300 0 00-300-300 300 300 0 00-300 300 300 300 0 00300 300 300 300 0 00300-300"/>
+    </clipPath>
+    <mask maskUnits="userSpaceOnUse" id="prefix__b">
+      <path fill="#fff" d="M174 174h652v652H174z"/>
+      <path stroke-width="50" stroke="#000" fill="#fff" d="M750 550a300 300 0 01-300 300 300 300 0 01-300-300 300 300 0 01300-300 300 300 0 01300 300"/>
+    </mask>
+    <mask maskUnits="userSpaceOnUse" id="prefix__c">
+      <path fill="#fff" d="M174 174h652v652H174z"/>
+      <path fill="#fff" d="M174 174h652v652H174z"/>
+      <path stroke-width="50" stroke="#000" fill="#fff" d="M750 550a300 300 0 01-300 300 300 300 0 01-300-300 300 300 0 01300-300 300 300 0 01300 300"/>
+    </mask>
+  </defs>
+  <path d="M745.2 10H254.8C119.6 10 10 119.6 10 254.8v490.5C10 880.4 119.6 990 254.8 990h490.5C880.4 990 990 880.4 990 745.2V254.8C990 119.6 880.4 10 745.2 10zm183.6 734.8c0 101.7-82.4 183.9-183.9 183.9H255.2c-101.7 0-183.9-82.4-183.9-183.9V255.2c0-101.7 82.4-183.9 183.9-183.9h489.6c101.7 0 183.9 82.4 183.9 183.9v489.6z" stroke="#fff" fill="#fff"/>
+  <path stroke-width="50" stroke="#FFF" fill="none" d="M800 500a300 300 0 01-300 300 300 300 0 01-300-300 300 300 0 01300-300 300 300 0 01300 300" clip-path="url(#prefix__a)" transform="translate(-11 -11)" mask="url(#prefix__b)"/>
+  <path stroke-width="50" stroke="#FFF" fill="none" d="M729 549a300 300 0 01-300 300 300 300 0 01-300-300 300 300 0 01300-300 300 300 0 01300 300"/>
+  <path stroke-width="50" stroke="#FFF" fill="none" mask="url(#prefix__c)" transform="translate(49 -71)" clip-path="url(#prefix__d)" d="M800 500a300 300 0 01-300 300 300 300 0 01-300-300 300 300 0 01300-300 300 300 0 01300 300"/>
+</svg>

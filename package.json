@@ -36,6 +36,7 @@
         "css/extension.css",
         "images/drag-icon.svg",
         "images/pages-icon.svg",
+        "images/group-icon.svg",
         "js/extension.js",
         "src/db.js",
         "src/pages-adaptor.js",
