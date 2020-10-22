@@ -127,50 +127,64 @@
           if (!Array.isArray(body)) {
             throw new Error(`expected an Array, received ${JSON.stringify(body)}`);
           }
-          let html = '';
-          let first = true;
-          let heading = false;
+          const h2 = document.createElement('h2');
+          const ul = document.createElement('ul');
+          while (resultsLoc.firstChild) {
+            resultsLoc.removeChild(resultsLoc.firstChild);
+          }
+          resultsLoc.textContent = '';
           body.forEach(function(item) {
             if (item.rowid == itemNo) { // loose comparison is deliberate, do not change to ===
-              html = `<h2>${itemType}: ${item.name}</h2>${html}`;
-              heading = true;
+              h2.textContent = `${itemType}: ${item.name}`;
             } else {
-              if (first) {
-                html = `${html}<ul>`;
-                first = false;
-              }
-              let deleteOp = `delete/${linkType}_${item.rowid}`;
+              const li = ul.appendChild(document.createElement('li'));
               if (item.link_rowid && item.link_rowid > 0) {
-                deleteOp = `delete_link/${item.link_rowid}`;
+                li.setAttribute('draggable', 'true');
               }
-              let content = '';
               if (item.rowtype === 'T') {
-                content = `<span>${item.name}</span>`;
+                li.appendChild(document.createElement('span')).textContent = item.name;
               } else {
-                content = `<a id='pagext/item/${linkType}_${item.rowid}'>${item.name}</a>`;
+                const a = li.appendChild(document.createElement('a'));
+                a.setAttribute('id', `pagext/item/${linkType}_${item.rowid}`);
+                a.textContent = item.name;
+                li.appendChild(document.createTextNode(' '));
+                const b1 = li.appendChild(document.createElement('button'));
+                b1.textContent = '\u00A0';
+                b1.setAttribute('id', `pagext/edit/${linkType}_${item.rowid}`);
+                b1.setAttribute('class', 'pagext-button-edit');
               }
-              html =
-                                `${html}
-<li${item.link_rowid && item.link_rowid > 0 ? ' draggable="true"' : ''}>
-${content}
-<button id="pagext/edit/${linkType}_${item.rowid}" class="pagext-button-edit">&nbsp;</button>
-<button id="pagext/${deleteOp}" class="pagext-button-delete">&nbsp;</button>
-</li>`;
+              li.appendChild(document.createTextNode(' '));
+              const b2 = li.appendChild(document.createElement('button'));
+              b2.textContent = '\u00A0';
+              if (item.link_rowid && item.link_rowid > 0) {
+                b2.setAttribute('id', `pagext/delete_link/${item.link_rowid}`);
+              } else {
+                b2.setAttribute('id', `pagext/delete/${linkType}_${item.rowid}`);
+              }
+              b2.setAttribute('class', 'pagext-button-delete');
             }
           });
-          if (!heading) {
-            html = `<h2>${itemType === 'group' ? 'Groups' : 'Pages'}</h2>${html}`;
+          if (h2.textContent === '') {
+            if (itemType === 'group') {
+              h2.textContent = 'Groups';
+            } else {
+              h2.textContent = 'Pages';
+            }
           }
-          if (!first) {
-            html = `${html}</ul>`;
+          resultsLoc.appendChild(h2);
+          if (ul.firstChild) {
+            resultsLoc.appendChild(ul);
           } else {
-            html =
-`${html}<p> - no ${itemType === 'group' ? 'members' : 'contents'} available -</p>`;
+            const p = document.createElement('p');
+            p.textContent = ` - no ${itemType === 'group' ? 'members' : 'contents'} available -`;
+            resultsLoc.appendChild(p);
           }
-          resultsLoc.innerHTML = html;
         }).catch((e) => {
           console.error('pagext/extension.js ', e.toString());
-          resultsLoc.innerText = e.toString();
+          while (resultsLoc.firstChild) {
+            resultsLoc.removeChild(resultsLoc.firstChild);
+          }
+          resultsLoc.textContent = `Error: ${e.toString()}`;
         });
       };
 
@@ -183,7 +197,10 @@ ${content}
             list_event_listener(currentType.value, currentItem.value);
           }).catch((e) => {
             console.error('pagext/extension.js ', e.toString());
-            resultsLoc.innerText = e.toString();
+            while (resultsLoc.firstChild) {
+              resultsLoc.removeChild(resultsLoc.firstChild);
+            }
+            resultsLoc.textContent = `Error: ${e.toString()}`;
           });
         }
       };
@@ -211,14 +228,14 @@ ${content}
             const x = event.target.id.substr(14).split('_'); // 14 = length of pagext/delete/
             confirmAction.value = `${x[0]}/delete`;
             confirmItem.value = x[1];
-            confirmText.innerText =
-`delete "${event.target.parentElement.firstElementChild.innerText}"?`;
+            confirmText.textContent =
+`delete "${event.target.parentElement.firstElementChild.textContent}"?`;
             openModal('confirm');
           } else if (event.target.id.startsWith('pagext/delete_link/')) {
             confirmItem.value = event.target.id.substr(19); // 19 = length of pagext/delete_link
             confirmAction.value = 'delete_link';
-            confirmText.innerText =
-`delete link to "${event.target.parentElement.firstElementChild.innerText}"?`;
+            confirmText.textContent =
+`delete link to "${event.target.parentElement.firstElementChild.textContent}"?`;
             openModal('confirm');
           }
         }
@@ -268,21 +285,26 @@ ${content}
               if (!Array.isArray(body)) {
                 throw new Error(`expected an Array, received ${JSON.stringify(body)}`);
               }
-              let optionHTML = '';
+              while (selectionBox.firstChild) {
+                selectionBox.remove(selectionBox.firstChild);
+              }
               body.forEach(function(item) {
-                // eslint-disable-next-line max-len
-                optionHTML = `${optionHTML}<option value="${item.rowid}">${rowtype_mapping[item.rowtype]}: ${item.name}</option>`;
+                const option = selectionBox.appendChild(document.createElement('option'));
+                option.setAttribute('value', item.rowid);
+                option.textContent = `${rowtype_mapping[item.rowtype]}: ${item.name}`;
               });
-              selectionBox.innerHTML = optionHTML;
-              if (optionHTML.length > 0) {
+              if (selectionBox.firstChild) {
                 openModal('select');
               } else {
-                acknowledgeMessage.innerText = 'nothing available to add';
+                acknowledgeMessage.textContent = 'nothing available to add';
                 openModal('acknowledge');
               }
             }).catch((e) => {
               console.error('pagext/extension.js ', e.toString());
-              resultsLoc.innerText = e.toString();
+              while (resultsLoc.firstChild) {
+                resultsLoc.removeChild(resultsLoc.firstChild);
+              }
+              resultsLoc.textContent = `Error: ${e.toString()}`;
             });
           }
         });
@@ -308,7 +330,10 @@ ${content}
             list_event_listener(currentType.value, currentItem.value);
           }).catch((e) => {
             console.error('pagext/extension.js', e.toString());
-            resultsLoc.innerText = e.toString();
+            while (resultsLoc.firstChild) {
+              resultsLoc.removeChild(resultsLoc.firstChild);
+            }
+            resultsLoc.textContent = `Error: ${e.toString()}`;
           });
         });
 
@@ -340,7 +365,10 @@ ${content}
             list_event_listener(currentType.value, currentItem.value);
           }).catch((e) => {
             console.error('pagext/extension.js', e.toString());
-            resultsLoc.innerText = e.toString();
+            while (resultsLoc.firstChild) {
+              resultsLoc.removeChild(resultsLoc.firstChild);
+            }
+            resultsLoc.textContent = `Error: ${e.toString()}`;
           });
         }
       };
