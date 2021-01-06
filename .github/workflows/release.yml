@@ -14,7 +14,8 @@ jobs:
         with:
           node-version: 8
       - name: Set env
-        run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:11})
+        #run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:11})
+        run: echo "RELEASE_VERSION=${GITHUB_REF:11}" >> $GITHUB_ENV
       - name: Package project
         run: |
           ./package.sh
@@ -35,8 +36,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: psi-sg-${{ env.RELEASE_VERSION }}.tgz
-          asset_name: psi-sg-${{ env.RELEASE_VERSION }}.tgz
+          asset_path: pages-extension-${{ env.RELEASE_VERSION }}.tgz
+          asset_name: pages-extension-${{ env.RELEASE_VERSION }}.tgz
           asset_content_type: application/gnutar
       - name: Upload Release Asset Checksum
         id: upload-release-asset-checksum
@@ -45,6 +46,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: psi-sg-${{ env.RELEASE_VERSION }}.tgz.sha256sum
-          asset_name: psi-sg-${{ env.RELEASE_VERSION }}.tgz.sha256sum
+          asset_path: pages-extension-${{ env.RELEASE_VERSION }}.tgz.sha256sum
+          asset_name: pages-extension-${{ env.RELEASE_VERSION }}.tgz.sha256sum
           asset_content_type: text/plain
